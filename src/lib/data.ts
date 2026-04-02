@@ -29,6 +29,8 @@ export interface TeamMember {
   sector: string;
   initials: string;
   bio: string;
+  /** Path under /public, e.g. /team/vivian.png */
+  image?: string;
 }
 
 export interface Product {
@@ -44,94 +46,288 @@ export interface Product {
   plans?: { name: string; price: number; features: string[] }[];
 }
 
+/** Company facts and marketing copy sourced from DravTech collateral and public profiles */
+export const siteInfo = {
+  brandName: 'DravTech',
+  legalName: 'Dravtech Company',
+  /** As registered under the Companies Act, 2015 (Kenya) */
+  registeredName: 'DRAVTECH PRIVATE LIMITED',
+  tagline: 'Quality with expertise',
+  phoneLocal: '0741406076',
+  phoneDisplay: '+254 741 406 076',
+  phoneHref: 'tel:+254741406076',
+  whatsappLocal: '0720357085',
+  whatsappDisplay: '+254 720 357 085',
+  whatsappHref: 'https://wa.me/254720357085',
+  /** Appears on some print materials alongside the primary WhatsApp line */
+  whatsappAltLocal: '0720357038',
+  email: 'hello@dravtech.com',
+  publicWebsite: 'https://dravis55.pythonanywhere.com/',
+  linkedinUrl: 'https://www.linkedin.com/company/dravtech-company/',
+  instagramUrl: 'https://www.instagram.com/dravtech.company/',
+  /** Add your public page URL when available */
+  facebookUrl: '#',
+  tiktokUrl: '#',
+  industry:
+    'Web development, graphic design, system development & management, data analysis, digital marketing, and IT consulting across Kenya.',
+  primaryLocation: 'Nairobi, Kenya',
+  locations: ['Nairobi, Kenya', 'Chuka, Kenya'] as const,
+  foundedYear: 2024,
+  heroBlurb:
+    "Elevate your brand's presence with smart digital marketing tactics that convert visitors into loyal customers.",
+  growthBlurb:
+    "Join us to explore strategies and tools to elevate your business performance and operational efficiency in today's market.",
+  conversionLine: 'Transform clicks into clients with a website designed to convert.',
+  programItems: [
+    'Modern & user-friendly designs',
+    'Web development',
+    'Personal branding',
+    'Social media strategy',
+  ] as const,
+  marketingPillars: ['Expert support team', 'Affordable pricing', 'Website analytics'] as const,
+  clientBenefits: [
+    'Mobile-first responsiveness',
+    'Social proof and credibility',
+    'Operational efficiency',
+    'Robust security and privacy',
+  ] as const,
+  /** Campus timetabling & student portal (collateral) */
+  campusTimetablingUrl: 'https://samuelkibunja.pythonanywhere.com/',
+  campusTimetablingCta: 'Have a look at our new interface and user-friendly features now.',
+  /** Printed on timetabling promo alongside main WhatsApp */
+  phoneTimetablingLocal: '0729717046',
+  phoneTimetablingDisplay: '+254 729 717 046',
+  phoneTimetablingHref: 'tel:+254729717046',
+  phoneTimetablingWhatsappHref: 'https://wa.me/254729717046',
+} as const;
+
+export type CampaignSpotlight = {
+  slug: string;
+  image: string;
+  imageAlt: string;
+  headline: string;
+  body: string;
+  primaryCta?: { label: string; href: string };
+  secondaryNote?: string;
+  meta?: string;
+  partner?: string;
+};
+
+/** Featured launches and partnerships from DravTech collateral */
+export const campaignSpotlights: CampaignSpotlight[] = [
+  {
+    slug: 'timetabling-portal',
+    image: '/marketing/flyer-timetabling-portal.png',
+    imageAlt:
+      'DravTech timetabling website promotion: portal dashboard on desktop, tablet, and mobile with campus modules',
+    headline: 'We have updated our timetabling website',
+    body: 'Explore the refreshed portal dashboard — main access, live chat, confessions, timetable, exams, fees and bursaries, mess, hostels, halls, news, and reels. Scan the QR code on the flyer to open the app where available.',
+    primaryCta: { label: 'Open live site', href: 'https://samuelkibunja.pythonanywhere.com/' },
+    secondaryNote: 'Contact: 0729717046 · 0720357085',
+  },
+  {
+    slug: 'chuka-radio-future-systems',
+    image: '/marketing/flyer-chuka-radio-live.png',
+    imageAlt:
+      'DravTech IT Solutions and Chuka University Radio CU 98.8 FM partnership — live broadcast The Future Of Systems',
+    headline: 'We will be live on CU Radio 98.8 FM',
+    body: 'DravTech IT Solutions joins Chuka Uni Radio for “The Future Of Systems” — a conversation on how institutions can build smarter, more reliable digital systems.',
+    meta: 'Monday 9 March · 11:00 a.m. · with Mugichagi',
+    partner: 'Chuka University Radio (CU Radio 98.8 FM)',
+  },
+];
+
 export const services: Service[] = [
   {
     slug: 'web-development',
-    title: 'Web Development',
-    shortDescription: 'Custom websites and web apps built with modern frameworks.',
+    title: 'Custom Website Design & Development',
+    shortDescription: 'Modern sites and platforms built to convert — mobile-first and easy to manage.',
     icon: '🌐',
     description: [
-      'We build high-performance websites and web applications using modern technologies like React, Next.js, and TypeScript. Our solutions are scalable, secure, and designed for the best user experience.',
-      'From landing pages to complex enterprise platforms, we deliver pixel-perfect implementations that drive business results.',
-      'Our development process follows agile methodologies ensuring rapid delivery without compromising quality.',
-      'Every project includes responsive design, SEO optimization, and performance tuning as standard.'
+      'We focus on custom website design and development so your business shows up online with clarity and confidence.',
+      siteInfo.conversionLine,
+      'Our builds emphasize mobile-first responsiveness, fast load times, and structures that support growth as you add content, products, or services.',
+      'Whether you need a marketing site, a booking flow, or internal tools, we pair solid engineering with design that matches your brand.',
     ],
-    features: ['Custom React/Next.js applications', 'Progressive Web Apps (PWA)', 'E-commerce platforms', 'Content Management Systems', 'API integrations'],
-    useCases: ['Church management platform for 5000+ members', 'Hotel booking system with real-time availability', 'Internal company dashboard for team operations']
+    features: [
+      'Responsive, mobile-first layouts',
+      'Performance and SEO-friendly setup',
+      'CMS-ready content structures',
+      'Integrations (forms, analytics, messaging)',
+      'Ongoing improvements and support',
+    ],
+    useCases: [
+      'Service business sites that drive calls and WhatsApp leads',
+      'Landing pages for campaigns and events',
+      'Portals for members, clients, or staff',
+    ],
   },
   {
-    slug: 'mobile-app-development',
-    title: 'Mobile App Development',
-    shortDescription: 'iOS and Android solutions for modern businesses.',
-    icon: '📱',
+    slug: 'digital-marketing',
+    title: 'Digital Marketing',
+    shortDescription: 'Campaigns and messaging that pair with strong website platforms.',
+    icon: '📣',
     description: [
-      'We create native and cross-platform mobile applications that deliver exceptional user experiences on both iOS and Android.',
-      'Using React Native and Flutter, we build apps that feel native while maintaining a single codebase for efficiency.',
-      'Our mobile solutions include offline-first architecture, push notifications, and seamless backend integration.',
-      'We handle the entire lifecycle from design to deployment on App Store and Google Play.'
+      siteInfo.heroBlurb,
+      'We connect digital marketing to your website so traffic has a clear path to enquiry, sign-up, or purchase.',
+      'Our approach balances practical tactics — content, targeting, and measurement — with what your team can sustain day to day.',
+      siteInfo.growthBlurb,
     ],
-    features: ['Cross-platform development', 'Native iOS & Android', 'Offline-first architecture', 'Push notifications', 'App Store deployment'],
-    useCases: ['Event management app for conferences', 'Fitness tracking application', 'Food delivery platform for local restaurants']
+    features: [
+      'Channel strategy (web, social, email)',
+      'Conversion-focused copy and CTAs',
+      'Campaign tracking and refinement',
+      'Alignment with your site and brand',
+      'Reporting you can act on',
+    ],
+    useCases: [
+      'Growing visibility for a local or national brand',
+      'Launching a new offer or service line',
+      'Improving lead quality from online channels',
+    ],
   },
   {
     slug: 'ui-ux-design',
-    title: 'UI/UX Design',
-    shortDescription: 'User-centered design systems that convert.',
+    title: 'UI/UX & Personal Branding',
+    shortDescription: 'Modern, user-friendly design systems and a visual identity that fits you.',
     icon: '🎨',
     description: [
-      'We craft intuitive, beautiful interfaces through research-driven design processes that put users first.',
-      'Our design team creates comprehensive design systems, prototypes, and user flows that guide development.',
-      'We believe great design is invisible — it simply works. Every interaction is intentional, every pixel purposeful.',
-      'From wireframes to high-fidelity mockups, we deliver design assets ready for development.'
+      'We deliver modern, user-friendly designs that make your product or site easy to understand the first time.',
+      "Personal branding work articulates who you serve and why you're different — then we reflect that consistently across web and print touchpoints.",
+      'From wireframes to polished UI, we keep accessibility and readability in mind so your audience trusts what they see.',
+      'Design deliverables are organized for handoff to development or print, so implementation stays smooth.',
     ],
-    features: ['User research & personas', 'Wireframing & prototyping', 'Design systems', 'Usability testing', 'Brand identity design'],
-    useCases: ['Complete rebrand for a leadership organization', 'Design system for a SaaS platform', 'Mobile app UX overhaul reducing churn by 40%']
+    features: [
+      'UI flows and high-fidelity screens',
+      'Brand palette, type, and usage rules',
+      'Social-ready assets and templates',
+      'Design collaboration with your team',
+      'Iterating based on feedback and analytics',
+    ],
+    useCases: [
+      'Founders refining their professional presence online',
+      'Teams refreshing an outdated site or slide deck',
+      'Organizations aligning visuals after a strategy shift',
+    ],
   },
   {
-    slug: 'cloud-devops',
-    title: 'Cloud & DevOps',
-    shortDescription: 'Scalable infrastructure and deployment pipelines.',
-    icon: '☁️',
+    slug: 'social-media-strategy',
+    title: 'Social Media Strategy',
+    shortDescription: 'Channel plans and content rhythm that build social proof and credibility.',
+    icon: '💬',
     description: [
-      'We architect and manage cloud infrastructure that scales with your business on AWS, Google Cloud, and Azure.',
-      'Our DevOps practices include CI/CD pipelines, container orchestration, and infrastructure as code.',
-      'We ensure 99.9% uptime with monitoring, alerting, and automated recovery systems.',
-      'Security is built into every layer with encryption, access controls, and compliance frameworks.'
+      'We help you define what to say, where to show up, and how often — so social media supports trust, not noise.',
+      'Strategy ties back to your website and business goals: awareness, enquiries, or community building.',
+      'We plan for realistic production — templates, batching, and clear roles — so you can keep publishing after launch.',
+      'Metrics focus on meaningful engagement and traffic patterns, not vanity alone.',
     ],
-    features: ['AWS/GCP/Azure setup', 'CI/CD pipelines', 'Docker & Kubernetes', 'Infrastructure as Code', 'Monitoring & alerting'],
-    useCases: ['Migration of legacy systems to cloud', 'Auto-scaling setup for an exam platform', 'Multi-region deployment for a fintech startup']
+    features: [
+      'Platform fit and audience mapping',
+      'Content pillars and calendar outlines',
+      'Guidelines for tone and visuals',
+      'Hashtag and collaboration ideas',
+      'Review cadence and improvement loops',
+    ],
+    useCases: [
+      'B2B consultancies building thought leadership',
+      'Local brands growing awareness in Kenya',
+      'Events and launches needing coordinated pushes',
+    ],
   },
   {
     slug: 'data-analytics',
-    title: 'Data & Analytics',
-    shortDescription: 'Turn your data into actionable insights.',
+    title: 'Data & Website Analytics',
+    shortDescription: 'Dashboards and website analytics that make performance visible.',
     icon: '📊',
     description: [
-      'We help organizations make data-driven decisions with custom analytics solutions and dashboards.',
-      'From data pipeline architecture to visualization, we transform raw data into strategic insights.',
-      'Our team builds ETL processes, data warehouses, and real-time analytics platforms.',
-      'We specialize in predictive analytics and machine learning models for business forecasting.'
+      'Timely access to data underpins good decisions. We set up views that show what matters to your team.',
+      'Website analytics connect marketing effort to behaviour on your site — where people arrive, what they click, and where they drop off.',
+      'Where useful, we combine spreadsheet workflows, dashboards, and simple automation so reporting stays consistent.',
+      'We explain metrics in plain language so leadership and operators can agree on next steps.',
     ],
-    features: ['Custom dashboards', 'ETL pipelines', 'Data visualization', 'Predictive analytics', 'Business intelligence'],
-    useCases: ['Student performance analytics for universities', 'Sales forecasting for e-commerce', 'Real-time operational metrics dashboard']
+    features: [
+      'Web analytics setup and goals',
+      'Executive and operational dashboards',
+      'Spreadsheet and light BI workflows',
+      'Training for in-house updates',
+      'Recommendations based on trends',
+    ],
+    useCases: [
+      'Lead tracking from ads and organic search',
+      'Monthly performance reviews for leadership',
+      'Operational KPIs for distributed teams',
+    ],
   },
   {
-    slug: 'it-consulting',
-    title: 'IT Consulting',
-    shortDescription: 'Strategic tech advisory for growing organizations.',
-    icon: '💡',
+    slug: 'cloud-devops',
+    title: 'Systems, Cloud & Security',
+    shortDescription: 'Operational efficiency with reliable hosting and robust security practices.',
+    icon: '☁️',
     description: [
-      'We provide strategic technology consulting to help organizations navigate digital transformation.',
-      'Our advisors bring decades of combined experience in enterprise technology and startup ecosystems.',
-      'We assess your current technology stack, identify opportunities, and create actionable roadmaps.',
-      'From vendor selection to architecture reviews, we ensure your technology investments deliver ROI.'
+      'Operational growth often exposes gaps in structure. We help with system development and ongoing management so performance stays steady.',
+      'Hosting, backups, and access control are designed for your risk profile — from simple brochure sites to apps with sensitive data.',
+      'We emphasise robust security and privacy basics: updates, HTTPS, least-privilege access, and sensible monitoring.',
+      "When you're ready to scale, we plan infrastructure that matches real traffic and compliance needs.",
     ],
-    features: ['Technology audits', 'Digital transformation roadmaps', 'Vendor selection', 'Architecture reviews', 'Team training & workshops'],
-    useCases: ['Digital transformation for a government agency', 'Tech stack evaluation for a growing startup', 'IT strategy for a multi-branch organization']
-  }
+    features: [
+      'Hosting and environment setup',
+      'Backups, SSL, and hardening checklists',
+      'CI/CD and deployment discipline',
+      'Monitoring and incident response basics',
+      'Documentation for your team',
+    ],
+    useCases: [
+      'Moving from ad-hoc updates to a maintainable setup',
+      'Reducing downtime after traffic spikes',
+      'Preparing for audit or partnership security questions',
+    ],
+  },
 ];
 
 export const projects: Project[] = [
+  {
+    slug: 'campus-timetabling-portal',
+    title: 'Campus Timetabling & Student Portal',
+    tagline: 'Updated web experience with a dashboard for campus life',
+    category: 'Web',
+    techStack: ['Responsive UI', 'Student portal', 'Live chat', 'Python hosting'],
+    thumbnail: '/marketing/flyer-timetabling-portal.png',
+    problem:
+      'A campus community needed one place to reach timetables, exams, fees, residential services, and day-to-day communication — on phone, tablet, and desktop.',
+    approach:
+      'We redesigned the portal around clear “cards” for the main portal, live chat, and community features, then grouped academic, services, and media tools so students find what they need quickly.',
+    solution:
+      'A dark-themed, mobile-first dashboard with modules for timetable, exams, fees and bursaries, mess and hostels, news, reels, and more — with QR access to the companion app experience promoted on collateral.',
+    outcome:
+      'Launched the updated timetabling website with a stronger interface and user-friendly navigation; live at samuelkibunja.pythonanywhere.com with support lines 0729717046 and 0720357085.',
+    team: ['Samuel Kibunja Macharia', 'Godwin'],
+    images: [
+      '/marketing/flyer-timetabling-portal.png',
+      'https://placehold.co/800x400/0d1b4b/c9a94f?text=Portal+modules',
+      'https://placehold.co/800x400/0d1b4b/c9a94f?text=Mobile+%2B+tablet',
+    ],
+  },
+  {
+    slug: 'chuka-radio-future-of-systems',
+    title: 'The Future Of Systems — CU Radio 98.8 FM',
+    tagline: 'Live broadcast partnership with Chuka University Radio',
+    category: 'Design',
+    techStack: ['Community outreach', 'Live radio', 'Partnership'],
+    thumbnail: '/marketing/flyer-chuka-radio-live.png',
+    problem:
+      'DravTech wanted to meet students and staff where they listen — sharing how thoughtful systems improve campus and organisational life.',
+    approach:
+      'We partnered with Chuka University Radio (Chuka Uni Radio, 98.8 FM) to host a live segment on “The Future Of Systems” with host Mugichagi.',
+    solution:
+      'A scheduled live show highlighting IT systems thinking, reliability, and practical digital transformation for institutions.',
+    outcome:
+      'On-air presence on Monday 9 March at 11:00 a.m., strengthening ties with the Chuka University community and CU Radio audience.',
+    team: ['Fredrick Mbugua Wainaina', 'Chuka University Radio'],
+    images: [
+      '/marketing/flyer-chuka-radio-live.png',
+      'https://placehold.co/800x400/0d1b4b/c9a94f?text=Live+broadcast',
+    ],
+  },
   {
     slug: 'cucu-platform',
     title: 'CUCU Platform',
@@ -143,7 +339,7 @@ export const projects: Project[] = [
     approach: 'We conducted extensive interviews with church administrators and built a modular system with role-based access.',
     solution: 'A comprehensive web platform with member management, event scheduling, tithe tracking, and automated communication tools.',
     outcome: 'Successfully deployed to serve 5000+ members with 99.8% uptime and a 60% reduction in administrative workload.',
-    team: ['Victor Dravi', 'Brian Ochieng', 'Grace Muthoni'],
+    team: ['Samuel Kibunja Macharia', 'David Muiruri', 'Edwin Mwangi'],
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Dashboard', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Members', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Events']
   },
   {
@@ -157,7 +353,7 @@ export const projects: Project[] = [
     approach: 'We built a real-time exam system with tab-switch detection, timed sessions, and automated grading.',
     solution: 'A full exam platform with roles for admins, trainers, and students, featuring MCQ and essay question types.',
     outcome: 'Adopted by multiple institutions, handling 1000+ concurrent exam sessions with zero data loss.',
-    team: ['Victor Dravi', 'Alex Kimani'],
+    team: ['Samuel Kibunja Macharia', 'Fredrick Mbugua Wainaina'],
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Exam+View', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Results', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Grading']
   },
   {
@@ -171,7 +367,7 @@ export const projects: Project[] = [
     approach: 'We focused on immersive visual storytelling with smooth animations and intuitive booking flows.',
     solution: 'A stunning responsive website with virtual tours, room galleries, and an integrated booking system.',
     outcome: 'Direct bookings increased by 45% within the first quarter after launch.',
-    team: ['Grace Muthoni', 'Victor Dravi'],
+    team: ['Vivian', 'Samuel Kibunja Macharia'],
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Homepage', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Rooms', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Booking']
   },
   {
@@ -185,7 +381,7 @@ export const projects: Project[] = [
     approach: 'We started with brand strategy workshops, defined visual identity guidelines, then built the website.',
     solution: 'Complete brand package including logo, color system, typography, and a modern responsive website.',
     outcome: 'Membership inquiries increased by 200% and the organization secured two major partnerships.',
-    team: ['Grace Muthoni', 'Sarah Njeri'],
+    team: ['Vivian', 'Edwin Mwangi'],
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Brand+Guide', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Website', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Social']
   },
   {
@@ -199,7 +395,7 @@ export const projects: Project[] = [
     approach: 'We built an internal-first product using our own tech stack, iterating based on daily team feedback.',
     solution: 'A real-time dashboard with project tracking, time logging, invoice management, and team analytics.',
     outcome: 'Reduced project management overhead by 35% and improved on-time delivery rate to 94%.',
-    team: ['Victor Dravi', 'Brian Ochieng', 'Alex Kimani'],
+    team: ['Fredrick Mbugua Wainaina', 'Samuel Kibunja Macharia', 'David Muiruri'],
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Overview', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Projects', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Analytics']
   },
   {
@@ -213,164 +409,185 @@ export const projects: Project[] = [
     approach: 'We automated the entire pipeline from CSV data to personalized PDF generation and email delivery.',
     solution: 'A Python tool that reads participant data, generates branded certificates, and sends them via Gmail SMTP.',
     outcome: 'Reduced certificate distribution time from 2 weeks to under 30 minutes for 500+ participants.',
-    team: ['Victor Dravi'],
+    team: ['Godwin'],
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Template', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Generated', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Email']
   }
 ];
 
+/** Leadership order aligned with Dravtech Private Limited constitution (shareholding & roles) */
 export const team: TeamMember[] = [
-  { name: 'Victor Dravi', role: 'CEO & Lead Engineer', sector: 'Strategy', initials: 'VD', bio: 'Visionary technologist leading DravTech\'s mission to build impactful digital solutions across Africa.' },
-  { name: 'Brian Ochieng', role: 'Software Engineer', sector: 'Backend', initials: 'BO', bio: 'Backend specialist with expertise in scalable APIs, microservices, and database architecture.' },
-  { name: 'Alex Kimani', role: 'Software Engineer', sector: 'Frontend', initials: 'AK', bio: 'Frontend craftsman passionate about pixel-perfect interfaces and seamless user interactions.' },
-  { name: 'James Mutua', role: 'Software Engineer', sector: 'Full-stack / DevOps', initials: 'JM', bio: 'Full-stack engineer and DevOps lead ensuring our systems run smoothly at scale.' },
-  { name: 'Grace Muthoni', role: 'UI/UX Designer', sector: 'UI / Brand', initials: 'GM', bio: 'Creative designer who transforms complex problems into elegant, intuitive interfaces.' },
-  { name: 'Sarah Njeri', role: 'Marketing Lead', sector: 'Growth / Content', initials: 'SN', bio: 'Growth strategist driving DravTech\'s brand presence and client acquisition.' }
+  {
+    name: 'Fredrick Mbugua Wainaina',
+    role: 'CEO & Founder',
+    sector: 'Governance & strategy',
+    initials: 'FM',
+    image: '/team/fredrick.png',
+    bio: 'Sets company vision, strategy, and investor relations, with final authority on major decisions under the constitution.',
+  },
+  {
+    name: 'Samuel Kibunja Macharia',
+    role: 'CTO & Founder',
+    sector: 'Technology',
+    initials: 'SM',
+    image: '/team/samuel.png',
+    bio: 'Leads technical direction, architecture, and engineering oversight across products and delivery.',
+  },
+  {
+    name: 'Edwin Mwangi',
+    role: 'Co-Founder & Director, Software Engineering',
+    sector: 'Engineering delivery',
+    initials: 'EM',
+    image: '/team/edwin.png',
+    bio: 'Co-founder with a director remit for software engineering — execution, team leadership, and shipping quality systems.',
+  },
+  {
+    name: 'David Muiruri',
+    role: 'Co-Founder & Director, Software Engineering',
+    sector: 'Engineering delivery',
+    initials: 'DM',
+    image: '/team/david.png',
+    bio: 'Co-founder and director of software engineering; focuses on execution, delivery, and technical team leadership.',
+  },
+  {
+    name: 'Vivian',
+    role: 'Research & partnerships',
+    sector: 'Research / ops',
+    initials: 'V',
+    image: '/team/vivian.png',
+    bio: 'Supports research, partnerships, and day-to-day operations that keep Dravtech connected to clients and communities.',
+  },
+  {
+    name: 'Godwin',
+    role: 'Software engineer',
+    sector: 'Engineering',
+    initials: 'G',
+    image: '/team/godwin.png',
+    bio: 'Builds and maintains features across the stack, contributing to reliable products for education and enterprise clients.',
+  },
 ];
 
 export const products: Product[] = [
   {
-    slug: 'ui-component-kit',
-    name: 'UI Component Kit',
-    creator: 'Grace Muthoni',
-    creatorRole: 'UI/UX Designer',
-    category: 'Digital Products',
-    price: 1200,
-    priceType: 'one-time',
-    description: [
-      'A comprehensive UI component library built with React and Tailwind CSS, featuring 50+ production-ready components.',
-      'Every component is fully responsive, accessible, and customizable. Dark mode support included out of the box.',
-      'Perfect for startups and teams who want to ship beautiful interfaces faster without reinventing the wheel.',
-      'Includes buttons, forms, modals, navigation, cards, tables, charts, and much more.'
-    ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Components', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Dark+Mode', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Forms']
-  },
-  {
-    slug: 'brand-identity-template',
-    name: 'Brand Identity Template',
-    creator: 'Grace Muthoni',
-    creatorRole: 'UI/UX Designer',
-    category: 'Digital Products',
-    price: 800,
-    priceType: 'subscription',
-    description: [
-      'A complete brand identity starter kit with customizable templates for logos, color palettes, typography, and guidelines.',
-      'Designed in Figma with fully editable components and auto-layout for easy customization.',
-      'Includes social media templates, business card designs, and letterhead layouts.',
-      'Perfect for startups and small businesses building their brand from scratch.'
-    ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Brand+Kit', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Logo+Variants'],
-    plans: [
-      { name: 'Basic', price: 800, features: ['Logo templates', 'Color palette generator', 'Typography guide', 'Email support'] },
-      { name: 'Pro', price: 1500, features: ['Everything in Basic', 'Social media templates', 'Business card designs', 'Letterhead layouts', 'Priority support'] },
-      { name: 'Enterprise', price: 3000, features: ['Everything in Pro', 'Custom brand consultation', 'Unlimited revisions', 'Brand strategy session', 'Dedicated designer'] }
-    ]
-  },
-  {
-    slug: 'dev-starter-kit',
-    name: 'DravTech Dev Starter Kit',
-    creator: 'Brian Ochieng',
-    creatorRole: 'Software Engineer',
-    category: 'Digital Products',
-    price: 500,
-    priceType: 'subscription',
-    description: [
-      'A production-ready starter template with Next.js, TypeScript, Prisma, and authentication pre-configured.',
-      'Skip weeks of boilerplate setup and start building your application logic immediately.',
-      'Includes database migrations, API routes, authentication flows, and deployment configs.',
-      'Battle-tested architecture used in multiple DravTech client projects.'
-    ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Starter+Kit', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Architecture'],
-    plans: [
-      { name: 'Basic', price: 500, features: ['Next.js template', 'TypeScript config', 'Basic auth', 'Community support'] },
-      { name: 'Pro', price: 1200, features: ['Everything in Basic', 'Prisma + DB setup', 'Payment integration', 'Email templates', 'Priority support'] },
-      { name: 'Enterprise', price: 2500, features: ['Everything in Pro', 'Multi-tenancy', 'Admin dashboard', 'CI/CD pipeline', '1-on-1 setup call'] }
-    ]
-  },
-  {
-    slug: 'api-boilerplate',
-    name: 'API Integration Boilerplate',
-    creator: 'Alex Kimani',
-    creatorRole: 'Software Engineer',
-    category: 'Digital Products',
-    price: 2000,
-    priceType: 'one-time',
-    description: [
-      'A collection of ready-to-use API integration modules for popular services like M-Pesa, Stripe, SendGrid, and more.',
-      'Each module includes TypeScript types, error handling, retry logic, and comprehensive documentation.',
-      'Copy-paste ready code that saves days of integration work on every project.',
-      'Regularly updated to match the latest API versions and best practices.'
-    ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=API+Kit', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Integrations']
-  },
-  {
-    slug: 'tech-poster-set',
-    name: 'Abstract Tech Poster Set',
-    creator: 'Grace Muthoni',
-    creatorRole: 'UI/UX Designer',
+    slug: 'art-savanna-lion-print',
+    name: 'Savanna Lion Art Print',
+    creator: 'DravTech',
+    creatorRole: 'Studio',
     category: 'Artwork',
-    price: 600,
+    price: 2800,
     priceType: 'one-time',
     description: [
-      'A curated collection of 5 abstract technology-inspired art prints in high resolution.',
-      'Featuring geometric patterns, circuit-inspired designs, and futuristic compositions.',
-      'Available in multiple sizes for office walls, meeting rooms, or your home workspace.',
-      'Each poster is delivered as a high-resolution PDF and PNG file ready for printing.'
+      'Double-exposure style piece blending a lion profile with acacia trees, sunset, and savanna cliffs on a marble-textured ground.',
+      'Warm gold, amber, and burnt orange palette — statement wall art for office or home.',
+      'Printed on high-quality stock; sizes available on request.',
+      'Quality with expertise — the same care we bring to digital work.',
     ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Poster+1', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Poster+2']
+    images: ['/marketplace/art-savanna-lion.png'],
   },
   {
-    slug: 'dravtech-tee',
-    name: 'DravTech Logo Tee',
-    creator: 'Sarah Njeri',
-    creatorRole: 'Marketing Lead',
+    slug: 'art-blue-harmony-print',
+    name: 'Blue Harmony Art Print',
+    creator: 'DravTech',
+    creatorRole: 'Studio',
+    category: 'Artwork',
+    price: 2600,
+    priceType: 'one-time',
+    description: [
+      'Vibrant composition with traditional pattern dress, birds, and roses on a clean white ground.',
+      'Bold greens and warm yellows — uplifting colour for reception areas or creative studios.',
+      'Available as a premium print; framing options on enquiry.',
+    ],
+    images: ['/marketplace/art-blue-harmony.png'],
+  },
+  {
+    slug: 'merch-dravtech-cap',
+    name: 'DravTech Cap',
+    creator: 'DravTech',
+    creatorRole: 'Merchandise',
     category: 'Merchandise',
-    price: 1500,
+    price: 1800,
     priceType: 'one-time',
     description: [
-      'Premium quality cotton t-shirt featuring the DravTech logo in gold on a dark navy base.',
-      'Available in sizes S through XXL with a modern unisex fit.',
-      'Made from 100% combed ring-spun cotton for maximum comfort.',
-      'Screen-printed with eco-friendly inks that last wash after wash.'
+      'Royal blue six-panel cap with embroidered DRAV-TECH wordmark, stylised D icon, and Quality with Expertise line.',
+      'Classic dad-hat fit; adjustable closure.',
+      'Bright, modern mockup-ready branding for events and everyday wear.',
     ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Tee+Front', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Tee+Back']
+    images: ['/marketplace/merch-cap.png'],
   },
   {
-    slug: 'dravtech-mug',
-    name: 'DravTech Mug',
-    creator: 'Sarah Njeri',
-    creatorRole: 'Marketing Lead',
+    slug: 'merch-dravtech-hoodie',
+    name: 'DravTech Hoodie',
+    creator: 'DravTech',
+    creatorRole: 'Merchandise',
     category: 'Merchandise',
-    price: 800,
+    price: 4200,
     priceType: 'one-time',
     description: [
-      'A sleek ceramic mug with the DravTech logo and a motivational developer quote.',
-      'Holds 350ml of your favorite beverage — perfect for those long coding sessions.',
-      'Dishwasher and microwave safe with a premium matte finish.',
-      'The perfect desk companion for any developer or tech enthusiast.'
+      'Royal blue hooded sweatshirt with front pouch pocket and ribbed cuffs.',
+      'White print: D mark, DRAV-TECH, and Quality with Expertise.',
+      'Unisex sizing; soft fleece interior — ideal for team kits and giveaways.',
     ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Mug+Side', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Mug+Top']
+    images: ['/marketplace/merch-hoodie.png'],
   },
   {
-    slug: 'social-media-playbook',
-    name: 'Social Media Growth Playbook',
-    creator: 'Sarah Njeri',
-    creatorRole: 'Marketing Lead',
-    category: 'Digital Products',
-    price: 300,
-    priceType: 'subscription',
+    slug: 'merch-dravtech-tote',
+    name: 'DravTech Canvas Tote',
+    creator: 'DravTech',
+    creatorRole: 'Merchandise',
+    category: 'Merchandise',
+    price: 1400,
+    priceType: 'one-time',
     description: [
-      'A comprehensive guide to growing your tech brand on social media with proven strategies.',
-      'Covers content calendars, engagement tactics, analytics tracking, and paid advertising basics.',
-      'Updated monthly with new trends, algorithm changes, and case studies from real campaigns.',
-      'Includes ready-to-use templates for posts, stories, and campaigns.'
+      'Natural canvas tote with navy DRAV-TECH logotype and Quality with Expertise tagline.',
+      'Features the blue D mark with orange accent — matches our brand guidelines.',
+      'Sturdy shoulder carry; perfect for conferences and daily use.',
     ],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Playbook', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Templates'],
-    plans: [
-      { name: 'Basic', price: 300, features: ['Monthly playbook PDF', 'Content calendar template', 'Basic analytics guide', 'Email support'] },
-      { name: 'Pro', price: 700, features: ['Everything in Basic', 'Video tutorials', 'Live monthly Q&A', 'Post templates pack', 'Priority support'] },
-      { name: 'Enterprise', price: 1500, features: ['Everything in Pro', 'Custom strategy session', 'Brand audit', 'Competitor analysis', 'Dedicated consultant'] }
-    ]
-  }
+    images: ['/marketplace/merch-tote.png'],
+  },
+  {
+    slug: 'merch-valentine-cupcake-box',
+    name: 'Valentine Cupcake Bouquet Box',
+    creator: 'DravTech',
+    creatorRole: 'Limited run',
+    category: 'Merchandise',
+    price: 3200,
+    priceType: 'one-time',
+    description: [
+      'Seven rose-piped cupcakes with red and pink frosting, green stem detail, and ribbon — presented in a gift box.',
+      'Hand-piped message option; seasonal availability.',
+      'Great for client appreciation or team celebrations.',
+    ],
+    images: ['/marketplace/merch-valentine-cupcakes.png'],
+  },
+  {
+    slug: 'art-golden-muse-triptych',
+    name: 'Golden Muse Triptych',
+    creator: 'DravTech',
+    creatorRole: 'Studio',
+    category: 'Artwork',
+    price: 3200,
+    priceType: 'one-time',
+    description: [
+      'Three-panel black-and-gold luxury study: jewellery, portrait, and ornament motifs.',
+      'High contrast matte black with metallic gold — boardroom or gallery-ready.',
+      'Delivered as premium prints; mounting guidance available.',
+    ],
+    images: ['/marketplace/art-golden-muse.png'],
+  },
+  {
+    slug: 'art-geometric-elegance-triptych',
+    name: 'Geometric Elegance Print Set',
+    creator: 'DravTech',
+    creatorRole: 'Studio',
+    category: 'Artwork',
+    price: 3400,
+    priceType: 'one-time',
+    description: [
+      'Three coordinated panels: navy, gold, marble, and wood textures with spheres and fine line accents.',
+      'Modern minimalist look aligned with tech and architecture spaces.',
+      'Sold as a set; individual panel sizes on request.',
+    ],
+    images: ['/marketplace/art-geometric-triptych.png'],
+  },
 ];
 
 export function getServiceBySlug(slug: string): Service | undefined {

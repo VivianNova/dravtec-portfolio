@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -49,6 +49,11 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        poster: {
+          navy: "hsl(var(--poster-navy))",
+          teal: "hsl(var(--poster-teal))",
+          purple: "hsl(var(--poster-purple))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

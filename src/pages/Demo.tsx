@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { services } from '@/lib/data';
+import { services, siteInfo } from '@/lib/data';
 
 export default function Demo() {
   const [form, setForm] = useState({ name: '', email: '', company: '', service: '', message: '', date: '' });
@@ -58,16 +58,26 @@ export default function Demo() {
                 </ul>
               </div>
               <div>
-                <h4 className="text-foreground font-semibold mb-1">Email</h4>
-                <p className="text-sm text-muted-foreground">hello@dravtech.com</p>
-              </div>
-              <div>
                 <h4 className="text-foreground font-semibold mb-1">Phone</h4>
-                <p className="text-sm text-muted-foreground">+254 700 123 456</p>
+                <a href={siteInfo.phoneHref} className="text-sm text-muted-foreground hover:text-primary">
+                  {siteInfo.phoneDisplay}
+                </a>
               </div>
               <div>
-                <h4 className="text-foreground font-semibold mb-1">Location</h4>
-                <p className="text-sm text-muted-foreground">Nairobi, Kenya</p>
+                <h4 className="text-foreground font-semibold mb-1">WhatsApp</h4>
+                <a href={siteInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary">
+                  {siteInfo.whatsappDisplay}
+                </a>
+              </div>
+              <div>
+                <h4 className="text-foreground font-semibold mb-1">Email</h4>
+                <a href={`mailto:${siteInfo.email}`} className="text-sm text-muted-foreground hover:text-primary">
+                  {siteInfo.email}
+                </a>
+              </div>
+              <div>
+                <h4 className="text-foreground font-semibold mb-1">Locations</h4>
+                <p className="text-sm text-muted-foreground">{siteInfo.locations.join(' · ')}</p>
               </div>
             </div>
           </div>

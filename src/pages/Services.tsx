@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
-import { services } from '@/lib/data';
+import { services, siteInfo } from '@/lib/data';
 
 export default function Services() {
   return (
     <div className="pt-16">
       <section className="section-padding bg-card">
         <div className="container-max text-center">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{siteInfo.tagline}</p>
           <h1 className="text-4xl font-bold text-foreground mb-4">Our Services</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">End-to-end digital solutions to help your organization thrive in the modern landscape.</p>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            {siteInfo.programItems.join(' · ')}. {siteInfo.conversionLine}
+          </p>
         </div>
       </section>
       <section className="section-padding">

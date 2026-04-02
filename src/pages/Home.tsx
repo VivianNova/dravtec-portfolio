@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
-import { ArrowDown, Users, Briefcase, Send } from 'lucide-react';
-import { services, projects, products, team } from '@/lib/data';
+import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart } from 'lucide-react';
+import { services, projects, products, team, siteInfo, campaignSpotlights } from '@/lib/data';
+import TeamMemberAvatar from '@/components/TeamMemberAvatar';
 import { useState } from 'react';
+
+const pillarIcons = [Headphones, BadgePercent, LineChart] as const;
 
 export default function Home() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
@@ -17,15 +20,22 @@ export default function Home() {
     <div>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-background animate-gradient" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(43_50%_54%_/_0.08)_0%,_transparent_70%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-accent/40 animate-gradient" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,_hsl(18_89%_52%_/_0.12)_0%,_transparent_50%),radial-gradient(ellipse_at_20%_80%,_hsl(191_48%_42%_/_0.1)_0%,_transparent_45%)]" />
+        <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(135deg,transparent_40%,hsl(196_48%_91%_/_0.9)_40.5%,transparent_41%),linear-gradient(45deg,transparent_55%,hsl(18_89%_52%_/_0.06)_55.5%,transparent_56%)] pointer-events-none" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 animate-fade-in-up">
+            {siteInfo.tagline}
+          </p>
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground mb-6 animate-fade-in-up">
-            We Build Digital Products{' '}
-            <span className="text-gradient">That Matter</span>
+            Websites &amp; Digital Marketing{' '}
+            <span className="text-gradient">That Convert</span>
           </h1>
-          <p className="text-xl text-muted-foreground mb-10 animate-fade-in-up animate-fade-in-up-delay-1">
-            Software. Design. Strategy.
+          <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto animate-fade-in-up animate-fade-in-up-delay-1">
+            {siteInfo.heroBlurb}
+          </p>
+          <p className="text-lg text-primary/90 font-medium italic mb-10 animate-fade-in-up animate-fade-in-up-delay-1">
+            {siteInfo.conversionLine}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-fade-in-up-delay-2">
             <Link to="/projects" className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
@@ -48,28 +58,27 @@ export default function Home() {
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-4">Who We Are</h2>
               <p className="text-muted-foreground mb-4">
-                DravTech is a Nairobi-based technology company building impactful digital solutions for organizations across Africa. We combine technical excellence with creative design to deliver products that drive real results.
+                {siteInfo.legalName} is an IT services company based in {siteInfo.primaryLocation}, with a presence in{' '}
+                {siteInfo.locations[1]}. Founded in {siteInfo.foundedYear}, we specialise in {siteInfo.industry}
               </p>
-              <p className="text-muted-foreground mb-6">
-                From web platforms to mobile apps, brand identity to cloud infrastructure — we handle the full spectrum of digital product development.
-              </p>
+              <p className="text-muted-foreground mb-6">{siteInfo.growthBlurb}</p>
               <Link to="/about" className="text-primary font-medium hover:underline">Learn More →</Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="glass-card p-6 text-center hover-lift">
-                <Users className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-3xl font-bold text-foreground">6</p>
-                <p className="text-sm text-muted-foreground">Team Members</p>
+                <Calendar className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">{siteInfo.foundedYear}</p>
+                <p className="text-sm text-muted-foreground">Founded</p>
               </div>
               <div className="glass-card p-6 text-center hover-lift">
-                <Briefcase className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-3xl font-bold text-foreground">10+</p>
-                <p className="text-sm text-muted-foreground">Projects Delivered</p>
+                <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">{siteInfo.locations.length}</p>
+                <p className="text-sm text-muted-foreground">Locations in Kenya</p>
               </div>
             </div>
           </div>
           <p className="text-lg font-semibold text-primary mt-8 text-center">
-            "Empowering organizations with technology that scales."
+            &ldquo;{siteInfo.tagline}.&rdquo;
           </p>
         </div>
       </section>
@@ -91,6 +100,51 @@ export default function Home() {
             <Link to="/services" className="border border-primary text-primary px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
               View All Services
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Program & pillars from collateral */}
+      <section className="section-padding bg-card">
+        <div className="container-max grid lg:grid-cols-2 gap-12">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Our program</h2>
+            <p className="text-muted-foreground text-sm mb-6">
+              Core capabilities we bring to every engagement — from first concept to launch and beyond.
+            </p>
+            <ul className="space-y-3">
+              {siteInfo.programItems.map(item => (
+                <li key={item} className="flex items-center gap-3 text-foreground">
+                  <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Why teams choose us</h2>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {siteInfo.marketingPillars.map((label, i) => {
+                const Icon = pillarIcons[i] ?? Headphones;
+                return (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-2 text-sm bg-secondary text-secondary-foreground px-3 py-2 rounded-full"
+                  >
+                    <Icon className="w-4 h-4 text-primary" />
+                    {label}
+                  </span>
+                );
+              })}
+            </div>
+            <h3 className="text-sm font-semibold text-primary uppercase tracking-wide mb-3">Benefits</h3>
+            <ul className="grid sm:grid-cols-2 gap-3">
+              {siteInfo.clientBenefits.map(b => (
+                <li key={b} className="glass-card p-4 text-sm text-muted-foreground">
+                  {b}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -123,6 +177,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Live campaigns & partnerships */}
+      <section className="section-padding border-y border-border bg-card/50">
+        <div className="container-max">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-4">Campaigns &amp; live launches</h2>
+          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12 text-sm">
+            Product updates and on-air partnerships — quality with expertise, in the open.
+          </p>
+          <div className="grid md:grid-cols-2 gap-10">
+            {campaignSpotlights.map(spot => (
+              <article key={spot.slug} className="glass-card overflow-hidden hover-lift flex flex-col">
+                <img src={spot.image} alt={spot.imageAlt} className="w-full object-cover max-h-72 sm:max-h-80" loading="lazy" />
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">{spot.headline}</h3>
+                  <p className="text-sm text-muted-foreground mb-4 flex-1">{spot.body}</p>
+                  {spot.primaryCta ? (
+                    <a
+                      href={spot.primaryCta.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-fit items-center bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+                    >
+                      {spot.primaryCta.label}
+                    </a>
+                  ) : null}
+                  {spot.meta ? <p className="text-xs text-primary mt-4 font-medium">{spot.meta}</p> : null}
+                  {spot.partner ? <p className="text-xs text-muted-foreground mt-1">{spot.partner}</p> : null}
+                  {spot.secondaryNote ? <p className="text-xs text-muted-foreground mt-4">{spot.secondaryNote}</p> : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Products Preview */}
       <section className="section-padding">
         <div className="container-max">
@@ -148,19 +236,47 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Brand collateral */}
+      <section className="section-padding bg-card">
+        <div className="container-max">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-4">From our brand studio</h2>
+          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-10 text-sm">
+            Creative direction across digital marketing, business growth, and custom website storytelling.
+          </p>
+          <div className="grid md:grid-cols-3 gap-4">
+            <img
+              src="/marketing/flyer-digital-marketing.png"
+              alt="DravTech digital marketing flyer: expert support, affordable pricing, and website analytics"
+              className="w-full rounded-lg border border-border object-cover shadow-md"
+              loading="lazy"
+            />
+            <img
+              src="/marketing/flyer-business-growth.png"
+              alt="DravTech business growth flyer: mobile-first design, credibility, efficiency, and security"
+              className="w-full rounded-lg border border-border object-cover shadow-md"
+              loading="lazy"
+            />
+            <img
+              src="/marketing/flyer-custom-websites.png"
+              alt="DravTech custom website design and development program overview"
+              className="w-full rounded-lg border border-border object-cover shadow-md"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Team */}
       <section className="section-padding bg-card">
         <div className="container-max">
           <h2 className="text-3xl font-bold text-foreground text-center mb-12">Meet the Team</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {team.map(member => (
-              <div key={member.name} className="text-center hover-lift">
-                <div className="w-16 h-16 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center mx-auto mb-3">
-                  <span className="text-primary font-bold">{member.initials}</span>
-                </div>
-                <h4 className="text-sm font-semibold text-foreground">{member.name}</h4>
-                <p className="text-xs text-muted-foreground">{member.role}</p>
-                <p className="text-xs text-primary">{member.sector}</p>
+              <div key={member.name} className="text-center hover-lift poster-glow rounded-xl p-4 bg-card border border-border">
+                <TeamMemberAvatar member={member} size="md" className="mx-auto mb-3 ring-2 ring-primary/10" />
+                <h4 className="text-sm font-semibold text-foreground leading-snug">{member.name}</h4>
+                <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
+                <p className="text-xs text-primary font-medium mt-0.5">{member.sector}</p>
               </div>
             ))}
           </div>
@@ -204,16 +320,69 @@ export default function Home() {
             </form>
             <div className="space-y-6">
               <div>
-                <h4 className="text-foreground font-semibold mb-1">Email</h4>
-                <p className="text-muted-foreground text-sm">hello@dravtech.com</p>
-              </div>
-              <div>
                 <h4 className="text-foreground font-semibold mb-1">Phone</h4>
-                <p className="text-muted-foreground text-sm">+254 700 123 456</p>
+                <a href={siteInfo.phoneHref} className="text-muted-foreground text-sm hover:text-primary transition-colors">
+                  {siteInfo.phoneDisplay} <span className="text-xs">({siteInfo.phoneLocal})</span>
+                </a>
               </div>
               <div>
-                <h4 className="text-foreground font-semibold mb-1">Location</h4>
-                <p className="text-muted-foreground text-sm">Nairobi, Kenya</p>
+                <h4 className="text-foreground font-semibold mb-1">WhatsApp</h4>
+                <a
+                  href={siteInfo.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                >
+                  {siteInfo.whatsappDisplay} <span className="text-xs">({siteInfo.whatsappLocal})</span>
+                </a>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Also reachable on WhatsApp: {siteInfo.whatsappAltLocal}
+                </p>
+              </div>
+              <div>
+                <h4 className="text-foreground font-semibold mb-1">Email</h4>
+                <a href={`mailto:${siteInfo.email}`} className="text-muted-foreground text-sm hover:text-primary transition-colors">
+                  {siteInfo.email}
+                </a>
+              </div>
+              <div>
+                <h4 className="text-foreground font-semibold mb-1">Campus timetabling portal</h4>
+                <p className="text-xs text-muted-foreground mb-1">{siteInfo.campusTimetablingCta}</p>
+                <a
+                  href={siteInfo.campusTimetablingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground text-sm hover:text-primary transition-colors break-all"
+                >
+                  {siteInfo.campusTimetablingUrl.replace(/^https?:\/\//, '')}
+                </a>
+                <div className="flex flex-wrap gap-3 mt-2 text-xs">
+                  <a href={siteInfo.phoneTimetablingHref} className="text-muted-foreground hover:text-primary">
+                    {siteInfo.phoneTimetablingDisplay}
+                  </a>
+                  <a href={siteInfo.phoneTimetablingWhatsappHref} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+                    WhatsApp {siteInfo.phoneTimetablingLocal}
+                  </a>
+                </div>
+              </div>
+              <div>
+                <h4 className="text-foreground font-semibold mb-1">Web</h4>
+                <a
+                  href={siteInfo.publicWebsite}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground text-sm hover:text-primary transition-colors break-all"
+                >
+                  {siteInfo.publicWebsite.replace(/^https?:\/\//, '')}
+                </a>
+              </div>
+              <div>
+                <h4 className="text-foreground font-semibold mb-1">Locations</h4>
+                <ul className="text-muted-foreground text-sm space-y-1">
+                  {siteInfo.locations.map(loc => (
+                    <li key={loc}>{loc}</li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>

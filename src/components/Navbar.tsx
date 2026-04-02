@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { siteInfo } from '@/lib/data';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -19,11 +20,16 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
       <div className="container-max flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-sm flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">D</span>
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-8 h-8 bg-poster-navy rounded-sm flex items-center justify-center shadow-sm ring-1 ring-primary/25">
+            <span className="text-white font-bold text-sm">D</span>
           </div>
-          <span className="text-foreground font-bold text-xl">DravTech</span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-foreground font-bold text-xl tracking-tight">DravTech</span>
+            <span className="hidden sm:block text-[10px] uppercase tracking-wider text-muted-foreground group-hover:text-primary/80 transition-colors">
+              {siteInfo.tagline}
+            </span>
+          </div>
         </Link>
 
         {/* Desktop nav */}
@@ -52,7 +58,7 @@ export default function Navbar() {
           </Link>
           <Link
             to="/demo"
-            className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium rounded-md hover:bg-primary/90 transition-colors"
+            className="bg-poster-purple text-white px-4 py-2 text-sm font-medium rounded-md hover:opacity-90 transition-opacity shadow-sm"
           >
             Book a Demo
           </Link>
@@ -93,7 +99,7 @@ export default function Navbar() {
             <Link
               to="/demo"
               onClick={() => setMobileOpen(false)}
-              className="block bg-primary text-primary-foreground px-4 py-2 text-sm font-medium rounded-md text-center mt-2"
+              className="block bg-poster-purple text-white px-4 py-2 text-sm font-medium rounded-md text-center mt-2 hover:opacity-90"
             >
               Book a Demo
             </Link>
