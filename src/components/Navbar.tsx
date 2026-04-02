@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
@@ -14,8 +14,18 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
   const { itemCount } = useCart();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (q.length === 0) return;
+    setSearchQuery('');
+    navigate(`/search?query=${encodeURIComponent(q)}`);
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
@@ -46,6 +56,17 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
+
+        {/* Search form (desktop) */}
+        <form onSubmit={handleSearch} className="hidden md:flex items-center gap-3">
+          <input
+            aria-label="Search"
+            placeholder="Search projects, services..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="px-3 py-2 text-sm rounded-md border border-border bg-background/60 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </form>
 
         <div className="hidden md:flex items-center gap-4">
           <Link to="/cart" className="relative text-muted-foreground hover:text-foreground transition-colors">
@@ -84,6 +105,11 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background">
           <div className="px-4 py-4 space-y-3">
+            {/* Mobile search */}
+            <form onSubmit={(e) => { e.preventDefault(); const q = (e.target as any).query?.value?.trim(); if (q) { (e.target as any).query.value = ''; window.location.href = `/search?query=${encodeURIComponent(q)}` } }} className="flex items-center gap-2">
+              <input name="query" placeholder="Search..." className="flex-1 px-3 py-2 rounded-md border border-border bg-background/60 text-sm" />
+              <button type="submit" className="px-3 py-2 bg-primary text-white rounded-md text-sm">Search</button>
+            </form>
             {navLinks.map(link => (
               <Link
                 key={link.href}

@@ -11,6 +11,14 @@ export default function Services() {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {siteInfo.programItems.join(' · ')}. {siteInfo.conversionLine}
           </p>
+          <div className="mt-8 max-w-4xl mx-auto">
+            <img
+              src="/marketing/dravtech-digital-marketing.png"
+              alt="DravTech Digital Marketing Services - Expert Support Team, Affordable Pricing, Website Analytics"
+              className="w-full rounded-lg border border-border shadow-lg"
+              loading="lazy"
+            />
+          </div>
         </div>
       </section>
       <section className="section-padding">

@@ -329,18 +329,40 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'cucu-platform',
-    title: 'CUCU Platform',
-    tagline: 'Church management system for modern congregations',
+    slug: 'afya-smart',
+    title: 'Afya Smart',
+    tagline: 'Telehealth platform for primary care',
     category: 'Web',
-    techStack: ['Next.js', 'Prisma', 'PostgreSQL', 'TypeScript'],
-    thumbnail: 'https://placehold.co/800x500/0d1b4b/c9a94f?text=CUCU+Platform',
-    problem: 'A large church needed a centralized platform to manage members, events, finances, and communications across multiple branches.',
-    approach: 'We conducted extensive interviews with church administrators and built a modular system with role-based access.',
-    solution: 'A comprehensive web platform with member management, event scheduling, tithe tracking, and automated communication tools.',
-    outcome: 'Successfully deployed to serve 5000+ members with 99.8% uptime and a 60% reduction in administrative workload.',
-    team: ['Samuel Kibunja Macharia', 'David Muiruri', 'Edwin Mwangi'],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Dashboard', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Members', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Events']
+    techStack: ['React', 'Node.js', 'Telemedicine', 'Stripe'],
+    thumbnail: 'https://placehold.co/800x500/0d1b4b/c9a94f?text=Afya+Smart',
+    problem:
+      'Rural and urban clinics needed an affordable way to offer remote consultations, triage, and basic patient records.',
+    approach:
+      'We built a lightweight telehealth web platform focused on appointment booking, secure messaging, and patient notes optimized for low-bandwidth connections.',
+    solution:
+      'A responsive web app that allows patients to book consultations, chat with clinicians, and access basic health records, integrated with simple payments for consultations.',
+    outcome:
+      'Early pilots showed improved appointment adherence and faster triage for non-critical cases; the platform runs on low-cost hosting and supports SMS reminders.',
+    team: ['Samuel Kibunja Macharia', 'Godwin'],
+    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Afya+Dashboard', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Booking', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Patient+Record']
+  },
+  {
+    slug: 'comrades-corner',
+    title: 'Comrades Corner',
+    tagline: 'Community marketplace for artisans',
+    category: 'Web',
+    techStack: ['React', 'Tailwind CSS', 'Stripe'],
+    thumbnail: 'https://placehold.co/800x500/0d1b4b/c9a94f?text=Comrades+Corner',
+    problem:
+      'Local artisans and small makers needed an online presence and simple tools to sell their goods without heavy marketplace fees.',
+    approach:
+      'We designed an easy onboarding flow for sellers, simple product listings, and a community storefront that highlights featured makers.',
+    solution:
+      'A community-first marketplace with profiles for makers, product galleries, and direct checkout powered by Stripe.',
+    outcome:
+      'Launched a pilot marketplace with 25 makers and a growing local customer base, improving discoverability and sales for small creators.',
+    team: ['Vivian', 'Edwin Mwangi'],
+    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Marketplace', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Maker+Profile']
   },
   {
     slug: 'examflow',
@@ -357,33 +379,20 @@ export const projects: Project[] = [
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Exam+View', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Results', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Grading']
   },
   {
-    slug: 'lowlands-hotel',
-    title: 'Lowlands Hotel Website',
-    tagline: 'Luxury hotel and spa web presence',
+    slug: 'lowlands-website',
+    title: 'Lowlands Website',
+    tagline: 'Hotel web presence (placeholder images)',
     category: 'Web',
-    techStack: ['React', 'Tailwind CSS', 'Framer Motion'],
-    thumbnail: 'https://placehold.co/800x500/0d1b4b/c9a94f?text=Lowlands+Hotel',
-    problem: 'A luxury hotel needed a modern website that captured the essence of their brand and drove direct bookings.',
-    approach: 'We focused on immersive visual storytelling with smooth animations and intuitive booking flows.',
-    solution: 'A stunning responsive website with virtual tours, room galleries, and an integrated booking system.',
-    outcome: 'Direct bookings increased by 45% within the first quarter after launch.',
+    techStack: ['React', 'Tailwind CSS'],
+    thumbnail: 'https://placehold.co/800x500/0d1b4b/c9a94f?text=Lowlands+Website',
+    problem: 'A hospitality business wanted a modern website to showcase rooms and encourage direct bookings.',
+    approach: 'We prioritised clear visual storytelling and an intuitive booking path while keeping asset sizes small for fast loads.',
+    solution: 'A responsive site with room galleries, basic booking UI, and contact integration — images are currently placeholders.',
+    outcome: 'Prepared the site for easy content replacement with real photography and CMS-managed assets.',
     team: ['Vivian', 'Samuel Kibunja Macharia'],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Homepage', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Rooms', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Booking']
+    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Homepage+placeholder', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Rooms+placeholder', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Booking+placeholder']
   },
-  {
-    slug: 'boyvate-brand',
-    title: 'Boyvate Brand Platform',
-    tagline: 'Leadership organization website and brand identity',
-    category: 'Design',
-    techStack: ['React', 'Figma', 'Tailwind CSS'],
-    thumbnail: 'https://placehold.co/800x500/0d1b4b/c9a94f?text=Boyvate',
-    problem: 'A youth leadership organization needed a professional digital presence and cohesive brand identity.',
-    approach: 'We started with brand strategy workshops, defined visual identity guidelines, then built the website.',
-    solution: 'Complete brand package including logo, color system, typography, and a modern responsive website.',
-    outcome: 'Membership inquiries increased by 200% and the organization secured two major partnerships.',
-    team: ['Vivian', 'Edwin Mwangi'],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Brand+Guide', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Website', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Social']
-  },
+  
   {
     slug: 'dravtech-dashboard',
     title: 'DravTech Internal Dashboard',
@@ -398,21 +407,7 @@ export const projects: Project[] = [
     team: ['Fredrick Mbugua Wainaina', 'Samuel Kibunja Macharia', 'David Muiruri'],
     images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Overview', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Projects', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Analytics']
   },
-  {
-    slug: 'certificate-automation',
-    title: 'Certificate Automation Tool',
-    tagline: 'Bulk certificate generation and email delivery',
-    category: 'Mobile',
-    techStack: ['Python', 'Gmail SMTP', 'Pillow', 'CSV'],
-    thumbnail: 'https://placehold.co/800x500/0d1b4b/c9a94f?text=Certificates',
-    problem: 'An organization needed to generate and distribute hundreds of personalized certificates after events.',
-    approach: 'We automated the entire pipeline from CSV data to personalized PDF generation and email delivery.',
-    solution: 'A Python tool that reads participant data, generates branded certificates, and sends them via Gmail SMTP.',
-    outcome: 'Reduced certificate distribution time from 2 weeks to under 30 minutes for 500+ participants.',
-    team: ['Godwin'],
-    images: ['https://placehold.co/800x400/0d1b4b/c9a94f?text=Template', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Generated', 'https://placehold.co/800x400/0d1b4b/c9a94f?text=Email']
-  }
-];
+  ];
 
 /** Leadership order aligned with Dravtech Private Limited constitution (shareholding & roles) */
 export const team: TeamMember[] = [
@@ -435,7 +430,7 @@ export const team: TeamMember[] = [
   {
     name: 'Edwin Mwangi',
     role: 'Co-Founder & Director, Software Engineering',
-    sector: 'Engineering delivery',
+    sector: 'Lead Designer & Researcher',
     initials: 'EM',
     image: '/team/edwin.png',
     bio: 'Co-founder with a director remit for software engineering — execution, team leadership, and shipping quality systems.',
@@ -449,7 +444,7 @@ export const team: TeamMember[] = [
     bio: 'Co-founder and director of software engineering; focuses on execution, delivery, and technical team leadership.',
   },
   {
-    name: 'Vivian',
+    name: 'Vivian Naliaka',
     role: 'Research & partnerships',
     sector: 'Research / ops',
     initials: 'V',
@@ -457,9 +452,9 @@ export const team: TeamMember[] = [
     bio: 'Supports research, partnerships, and day-to-day operations that keep Dravtech connected to clients and communities.',
   },
   {
-    name: 'Godwin',
-    role: 'Software engineer',
-    sector: 'Engineering',
+    name: 'Godwin Mutembei',
+    role: 'Marketing Lead',
+    sector: 'Marketing',
     initials: 'G',
     image: '/team/godwin.png',
     bio: 'Builds and maintains features across the stack, contributing to reliable products for education and enterprise clients.',

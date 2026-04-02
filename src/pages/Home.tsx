@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart } from 'lucide-react';
 import { services, projects, products, team, siteInfo, campaignSpotlights } from '@/lib/data';
 import TeamMemberAvatar from '@/components/TeamMemberAvatar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const pillarIcons = [Headphones, BadgePercent, LineChart] as const;
 
@@ -23,6 +23,10 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-accent/40 animate-gradient" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,_hsl(18_89%_52%_/_0.12)_0%,_transparent_50%),radial-gradient(ellipse_at_20%_80%,_hsl(191_48%_42%_/_0.1)_0%,_transparent_45%)]" />
         <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(135deg,transparent_40%,hsl(196_48%_91%_/_0.9)_40.5%,transparent_41%),linear-gradient(45deg,transparent_55%,hsl(18_89%_52%_/_0.06)_55.5%,transparent_56%)] pointer-events-none" />
+        
+        {/* Hero carousel (images + video) */}
+        <HeroCarousel />
+        
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 animate-fade-in-up">
             {siteInfo.tagline}
@@ -388,6 +392,60 @@ export default function Home() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function HeroCarousel() {
+  const slides = [
+    { type: 'image', src: '/hero/team-meeting-1.png', alt: 'Team collaboration' },
+    { type: 'image', src: '/hero/team-meeting-2.png', alt: 'Team meeting' },
+    { type: 'video', src: '/videos/video.mp4', alt: 'Intro video' },
+    { type: 'image', src: '/hero/team-meeting-3.png', alt: 'Team discussion' },
+  ];
+  const [index, setIndex] = useState(0);
+
+  // autoplay
+  useEffect(() => {
+    const id = setInterval(() => setIndex(i => (i + 1) % slides.length), 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {slides.map((s, i) => (
+        <div
+          key={i}
+          className={`absolute inset-0 transition-opacity duration-700 ${i === index ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}
+        >
+          {s.type === 'image' ? (
+            <div className="absolute top-10 left-10 w-96 h-64 opacity-25">
+              <img src={s.src} alt={s.alt} className="w-full h-full object-cover rounded-lg shadow-lg" />
+            </div>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <video className="w-[min(80%,1200px)] rounded-lg shadow-lg" src={s.src} controls preload="metadata" />
+            </div>
+          )}
+        </div>
+      ))}
+
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
+        <button
+          aria-label="Previous"
+          onClick={() => setIndex(i => (i - 1 + slides.length) % slides.length)}
+          className="bg-background/80 text-foreground p-2 rounded-md shadow-sm"
+        >
+          ‹
+        </button>
+        <button
+          aria-label="Next"
+          onClick={() => setIndex(i => (i + 1) % slides.length)}
+          className="bg-background/80 text-foreground p-2 rounded-md shadow-sm"
+        >
+          ›
+        </button>
+      </div>
     </div>
   );
 }
