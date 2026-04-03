@@ -6,36 +6,14 @@ import FloatingIcons from '@/components/FloatingIcons';
 export default function Services() {
   const ref = useScrollReveal();
   return (
-    <div className="pt-16 page-fade-in">
-      <section className="section-padding bg-card noise-overlay">
-        <div className="container-max text-center relative z-10">
+    <div className="pt-16">
+      <section className="section-padding bg-card">
+        <div className="container-max text-center">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{siteInfo.tagline}</p>
-          <h1 className="text-4xl font-bold text-foreground mb-4 section-heading mx-auto">Our Services</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Our Services</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {siteInfo.programItems.join(' · ')}. {siteInfo.conversionLine}
           </p>
-          <div className="mt-8 max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-4">
-              <img
-                src="/hero/hero1.jpeg"
-                alt="Team collaboration"
-                className="w-full h-48 object-cover rounded-lg border border-border shadow-lg"
-                loading="lazy"
-              />
-              <img
-                src="/marketing/dravtech-digital-marketing.png"
-                alt="DravTech Digital Marketing Services - Expert Support Team, Affordable Pricing, Website Analytics"
-                className="w-full h-48 object-cover rounded-lg border border-border shadow-lg"
-                loading="lazy"
-              />
-              <img
-                src="/hero/hero2.jpeg"
-                alt="Team meeting"
-                className="w-full h-48 object-cover rounded-lg border border-border shadow-lg"
-                loading="lazy"
-              />
-            </div>
-          </div>
         </div>
       </section>
       <section ref={ref} className="section-padding noise-overlay scroll-reveal relative">

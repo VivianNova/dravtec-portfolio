@@ -45,21 +45,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* About gallery */}
-      <section className="section-padding">
-        <div className="container-max">
-          <h2 className="text-2xl font-bold text-foreground mb-6 text-center">A closer look</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <img src="/hero/team-meeting-1.png" alt="Team collaboration" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/hero/team-meeting-2.png" alt="Team meeting" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/hero/team-discussion.png" alt="Team discussion" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/hero/digital-marketing.png" alt="Digital marketing" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/hero/merch-hoodie.png" alt="Merch hoodie" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/hero/hero1.jpeg" alt="Team work" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-          </div>
-        </div>
-      </section>
-
       {/* Mission & Vision */}
       <section className="section-padding">
         <div className="container-max grid md:grid-cols-2 gap-8">

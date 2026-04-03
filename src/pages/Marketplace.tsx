@@ -18,31 +18,10 @@ export default function Marketplace() {
 
   return (
     <div className="pt-16">
-      {/* Hero Section */}
-      <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden">
-        {/* Hero Background */}
-        <img 
-          src="/hero/hero2.jpeg" 
-          alt="DravTech Marketplace" 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        
-        {/* Overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/70 via-blue-800/40 to-transparent" />
-        
-        {/* Content */}
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">DravTech Marketplace</h1>
-          <p className="text-lg text-blue-100 max-w-2xl mx-auto">
-            Digital products, artwork and merchandise from our team.
-          </p>
-        </div>
-      </section>
-
       <section className="section-padding bg-card">
         <div className="container-max text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-4">Shop Our Products</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">Quality with expertise in every item we create.</p>
+          <h1 className="text-4xl font-bold text-foreground mb-4">DravTech Marketplace</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">Digital products, artwork and merchandise from our team.</p>
         </div>
       </section>
 
