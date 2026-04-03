@@ -1,6 +1,9 @@
 import { team, siteInfo } from '@/lib/data';
 import TeamMemberAvatar from '@/components/TeamMemberAvatar';
 import { Lightbulb, Users, Star, Zap } from 'lucide-react';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import FloatingIcons from '@/components/FloatingIcons';
+import SectionDivider from '@/components/SectionDivider';
 
 const values = [
   { icon: Lightbulb, title: 'Innovation', desc: 'We embrace new technologies and creative approaches to solve real-world challenges.' },
@@ -10,12 +13,15 @@ const values = [
 ];
 
 export default function About() {
+  const teamRef = useScrollReveal();
+  const valuesRef = useScrollReveal();
+
   return (
-    <div className="pt-16">
-      <section className="section-padding bg-card">
-        <div className="container-max text-center">
+    <div className="pt-16 page-fade-in">
+      <section className="section-padding bg-card noise-overlay">
+        <div className="container-max text-center relative z-10">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{siteInfo.tagline}</p>
-          <h1 className="text-4xl font-bold text-foreground mb-4">About {siteInfo.brandName}</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4 section-heading mx-auto">About {siteInfo.brandName}</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {siteInfo.legalName} — {siteInfo.industry}
           </p>
@@ -23,9 +29,10 @@ export default function About() {
       </section>
 
       {/* About gallery */}
-      <section className="section-padding">
-        <div className="container-max">
-          <h2 className="text-2xl font-bold text-foreground mb-6 text-center">A closer look</h2>
+      <section className="section-padding noise-overlay relative">
+        <FloatingIcons />
+        <div className="container-max relative z-10">
+          <h2 className="text-2xl font-bold text-foreground mb-6 text-center section-heading mx-auto">A closer look</h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             <img src="/hero/team-meeting-1.png" alt="Team collaboration" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
             <img src="/hero/team-meeting-2.png" alt="Team meeting" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
@@ -37,26 +44,30 @@ export default function About() {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Mission & Vision */}
-      <section className="section-padding">
-        <div className="container-max grid md:grid-cols-2 gap-8">
-          <div className="glass-card p-8">
-            <h2 className="text-2xl font-bold text-foreground mb-3">🎯 Our Mission</h2>
+      <section className="section-padding noise-overlay">
+        <div className="container-max relative z-10 grid md:grid-cols-2 gap-8">
+          <div className="glass-card p-8 hover-lift">
+            <h2 className="text-2xl font-bold text-foreground mb-3 section-heading">🎯 Our Mission</h2>
             <p className="text-muted-foreground">
               To help organisations grow through websites that convert, digital marketing that fits their goals, and systems that stay reliable over time — with honest communication and support you can reach by phone or WhatsApp.
             </p>
           </div>
-          <div className="glass-card p-8">
-            <h2 className="text-2xl font-bold text-foreground mb-3">🔭 Our Vision</h2>
+          <div className="glass-card p-8 hover-lift">
+            <h2 className="text-2xl font-bold text-foreground mb-3 section-heading">🔭 Our Vision</h2>
             <p className="text-muted-foreground">{siteInfo.growthBlurb}</p>
           </div>
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Story */}
-      <section className="section-padding bg-card">
-        <div className="container-max max-w-3xl">
-          <h2 className="text-2xl font-bold text-foreground mb-6">Our Story</h2>
+      <section className="section-padding bg-card noise-overlay">
+        <div className="container-max max-w-3xl relative z-10">
+          <h2 className="text-2xl font-bold text-foreground mb-6 section-heading">Our Story</h2>
           <p className="text-muted-foreground mb-4">
             <strong className="text-foreground font-semibold">{siteInfo.registeredName}</strong> is incorporated in Kenya under the Companies Act, 2015. Operating as {siteInfo.legalName}, we were founded in {siteInfo.foundedYear} in {siteInfo.primaryLocation}. We work with businesses and institutions that need clear digital presence — from custom website design and development to data visibility and ongoing system care.
           </p>
@@ -74,10 +85,12 @@ export default function About() {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Team */}
-      <section className="section-padding">
-        <div className="container-max">
-          <h2 className="text-2xl font-bold text-foreground text-center mb-12">The Team</h2>
+      <section ref={teamRef} className="section-padding noise-overlay scroll-reveal">
+        <div className="container-max relative z-10">
+          <h2 className="text-2xl font-bold text-foreground text-center mb-12 section-heading mx-auto">The Team</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {team.map(member => (
               <div key={member.name} className="glass-card overflow-hidden hover-lift flex flex-col sm:flex-row sm:items-stretch">
@@ -109,14 +122,18 @@ export default function About() {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Values */}
-      <section className="section-padding bg-card">
-        <div className="container-max">
-          <h2 className="text-2xl font-bold text-foreground text-center mb-12">Our Values</h2>
+      <section ref={valuesRef} className="section-padding bg-card noise-overlay scroll-reveal">
+        <div className="container-max relative z-10">
+          <h2 className="text-2xl font-bold text-foreground text-center mb-12 section-heading mx-auto">Our Values</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map(v => (
               <div key={v.title} className="glass-card p-6 text-center hover-lift">
-                <v.icon className="w-8 h-8 text-primary mx-auto mb-3" />
+                <div className="icon-glow w-14 h-14 flex items-center justify-center mx-auto mb-3">
+                  <v.icon className="w-8 h-8 text-primary" />
+                </div>
                 <h3 className="text-foreground font-semibold mb-2">{v.title}</h3>
                 <p className="text-sm text-muted-foreground">{v.desc}</p>
               </div>
