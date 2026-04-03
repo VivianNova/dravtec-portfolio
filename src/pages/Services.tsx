@@ -11,13 +11,27 @@ export default function Services() {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {siteInfo.programItems.join(' · ')}. {siteInfo.conversionLine}
           </p>
-          <div className="mt-8 max-w-4xl mx-auto">
-            <img
-              src="/marketing/dravtech-digital-marketing.png"
-              alt="DravTech Digital Marketing Services - Expert Support Team, Affordable Pricing, Website Analytics"
-              className="w-full rounded-lg border border-border shadow-lg"
-              loading="lazy"
-            />
+          <div className="mt-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-4">
+              <img
+                src="/hero/hero1.jpeg"
+                alt="Team collaboration"
+                className="w-full h-48 object-cover rounded-lg border border-border shadow-lg"
+                loading="lazy"
+              />
+              <img
+                src="/marketing/dravtech-digital-marketing.png"
+                alt="DravTech Digital Marketing Services - Expert Support Team, Affordable Pricing, Website Analytics"
+                className="w-full h-48 object-cover rounded-lg border border-border shadow-lg"
+                loading="lazy"
+              />
+              <img
+                src="/hero/hero2.jpeg"
+                alt="Team meeting"
+                className="w-full h-48 object-cover rounded-lg border border-border shadow-lg"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -35,7 +35,7 @@ export default function Footer() {
   ] as const;
 
   return (
-    <footer className="border-t border-border bg-card">
+    <footer className="border-t border-blue-200 bg-gradient-to-br from-blue-50 via-white to-blue-100">
       <div className="container-max px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -57,7 +57,7 @@ export default function Footer() {
             <h4 className="text-foreground font-semibold text-sm mb-3">Quick Links</h4>
             <div className="space-y-2">
               {['Services', 'Projects', 'About', 'Marketplace', 'Demo'].map(link => (
-                <Link key={link} to={`/${link.toLowerCase()}`} className="block text-muted-foreground text-sm hover:text-primary transition-colors">
+                <Link key={link} to={`/${link.toLowerCase()}`} className="block text-muted-foreground text-sm hover:text-blue-600 transition-colors">
                   {link === 'Demo' ? 'Contact' : link}
                 </Link>
               ))}
@@ -69,22 +69,22 @@ export default function Footer() {
             <h4 className="text-foreground font-semibold text-sm mb-3">Contact</h4>
             <div className="space-y-2 text-muted-foreground text-sm">
               <p>
-                <a href={siteInfo.phoneHref} className="hover:text-primary transition-colors">
+                <a href={siteInfo.phoneHref} className="hover:text-blue-600 transition-colors">
                   {siteInfo.phoneDisplay}
                 </a>
               </p>
               <p>
-                <a href={siteInfo.phoneTimetablingHref} className="hover:text-primary transition-colors">
+                <a href={siteInfo.phoneTimetablingHref} className="hover:text-blue-600 transition-colors">
                   {siteInfo.phoneTimetablingDisplay} <span className="text-xs opacity-80">(portal line)</span>
                 </a>
               </p>
               <p>
-                <a href={siteInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                <a href={siteInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
                   WhatsApp {siteInfo.whatsappLocal}
                 </a>
               </p>
               <p>
-                <a href={siteInfo.campusTimetablingUrl} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors break-all">
+                <a href={siteInfo.campusTimetablingUrl} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors break-all">
                   Timetabling portal
                 </a>
               </p>
@@ -103,7 +103,7 @@ export default function Footer() {
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   aria-label={label}
-                  className="w-9 h-9 rounded-md border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+                  className="w-9 h-9 rounded-md border border-blue-200 flex items-center justify-center text-muted-foreground hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 transition-colors"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -112,7 +112,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border mt-8 pt-6 text-center text-muted-foreground text-xs">
+        <div className="border-t border-blue-200 mt-8 pt-6 text-center text-muted-foreground text-xs">
           © {new Date().getFullYear()} {siteInfo.brandName}. All rights reserved.
         </div>
       </div>

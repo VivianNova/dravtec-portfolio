@@ -374,51 +374,63 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-foreground text-center mb-12">Gallery</h2>
           <div className="relative overflow-hidden rounded-lg">
             <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentGalleryIndex * 100}%)` }}>
-              {galleryImages.map((image, index) => (
-                <div key={index} className="w-full flex-shrink-0">
-                  <div className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <img
-                      src={image}
-                      alt={`Gallery ${index + 1}`}
-                      className="w-full h-96 object-cover transition-transform duration-300 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-4 left-4 text-white">
-                        <p className="text-sm font-medium">View Image</p>
+              {/* Group images into sets of 5 for each slider */}
+              {Array.from({ length: Math.ceil(galleryImages.length / 5) }).map((_, slideIndex) => (
+                <div key={slideIndex} className="w-full flex-shrink-0">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    {galleryImages.slice(slideIndex * 5, (slideIndex + 1) * 5).map((image, imgIndex) => (
+                      <div
+                        key={`${slideIndex}-${imgIndex}`}
+                        className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+                      >
+                        <img
+                          src={image}
+                          alt={`Gallery ${slideIndex * 5 + imgIndex + 1}`}
+                          className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-110"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="absolute bottom-2 left-2 text-white">
+                            <p className="text-xs font-medium">View Image</p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
             
             {/* Gallery Controls */}
-            <button
-              onClick={() => setCurrentGalleryIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => setCurrentGalleryIndex((prev) => (prev + 1) % galleryImages.length)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-            
-            {/* Gallery Indicators */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-              {galleryImages.map((_, index) => (
+            {Math.ceil(galleryImages.length / 5) > 1 && (
+              <>
                 <button
-                  key={index}
-                  onClick={() => setCurrentGalleryIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentGalleryIndex ? 'bg-white' : 'bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
+                  onClick={() => setCurrentGalleryIndex((prev) => (prev - 1 + Math.ceil(galleryImages.length / 5)) % Math.ceil(galleryImages.length / 5))}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={() => setCurrentGalleryIndex((prev) => (prev + 1) % Math.ceil(galleryImages.length / 5))}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+                
+                {/* Gallery Indicators */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                  {Array.from({ length: Math.ceil(galleryImages.length / 5) }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentGalleryIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        index === currentGalleryIndex ? 'bg-white' : 'bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
