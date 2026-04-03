@@ -74,6 +74,118 @@
   }
 }
 
+/* ====== Section heading gold left-border ====== */
+.section-heading {
+  border-left: 4px solid hsl(var(--primary));
+  padding-left: 12px;
+  display: inline-block;
+}
+
+/* ====== Scroll reveal ====== */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ====== Floating icon animation ====== */
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* ====== Marquee ====== */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* ====== Scan-line effect ====== */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+.scanline-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, hsl(var(--poster-navy) / 0.08) 50%, transparent 100%);
+  animation: scanline 6s linear infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ====== Button shimmer ====== */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, hsl(var(--primary-foreground) / 0.2), transparent);
+  transition: none;
+}
+.btn-shimmer:hover::after {
+  animation: shimmerSweep 0.6s ease forwards;
+}
+@keyframes shimmerSweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* ====== Input focus glow ====== */
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 2px 0 hsl(var(--primary));
+}
+
+/* ====== Page fade in ====== */
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.page-fade-in {
+  animation: pageFadeIn 0.3s ease-out;
+}
+
+/* ====== Noise texture ====== */
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ====== Skeleton loading ====== */
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.skeleton-card {
+  background: hsl(var(--muted));
+  border-radius: var(--radius);
+  animation: skeletonPulse 1.2s ease-in-out infinite;
+}
+
+/* ====== Existing animations ====== */
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
@@ -107,6 +219,39 @@
   @apply transition-all duration-300;
 }
 .hover-lift:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   box-shadow: 0 14px 36px -8px hsl(18 89% 52% / 0.2);
+}
+
+/* ====== Navbar frosted glass ====== */
+.navbar-scrolled {
+  background: hsl(var(--background) / 0.85) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* ====== Glow icon container ====== */
+.icon-glow {
+  @apply border border-border rounded-lg p-3 transition-all duration-300;
+  background: hsl(var(--card));
+}
+.icon-glow:hover,
+.glass-card:hover .icon-glow {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 16px hsl(18 89% 52% / 0.25);
+}
+
+/* ====== Project card image zoom ====== */
+.project-card-img {
+  @apply overflow-hidden;
+}
+.project-card-img img {
+  @apply transition-transform duration-500;
+}
+.group:hover .project-card-img img {
+  transform: scale(1.05);
+}
+
+/* ====== Marketplace card glow ====== */
+.marketplace-card:hover {
+  box-shadow: 0 0 20px hsl(18 89% 52% / 0.15);
 }
