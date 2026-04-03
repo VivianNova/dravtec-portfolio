@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { siteInfo } from '@/lib/data';
@@ -15,9 +15,16 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { itemCount } = useCart();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,11 +35,16 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
+    <nav className={`fixed top-0 left-0 right-0 z-50 border-b border-border transition-all duration-300 ${scrolled ? 'navbar-scrolled' : 'bg-background/90 backdrop-blur-md'}`}>
       <div className="container-max flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-poster-navy rounded-sm flex items-center justify-center shadow-sm ring-1 ring-primary/25">
-            <span className="text-white font-bold text-sm">D</span>
+          {/* Rotating geometric icon */}
+          <div className="relative w-8 h-8">
+            <svg viewBox="0 0 32 32" className="w-8 h-8 animate-[spin_12s_linear_infinite]">
+              <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" />
+              <polygon points="16,6 24,11 24,21 16,26 8,21 8,11" fill="hsl(var(--poster-navy))" />
+            </svg>
+            <span className="absolute inset-0 flex items-center justify-center text-primary-foreground font-bold text-xs">D</span>
           </div>
           <div className="flex flex-col leading-tight">
             <span className="text-foreground font-bold text-xl tracking-tight">DravTech</span>
@@ -42,17 +54,20 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav with active underline */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map(link => (
             <Link
               key={link.href}
               to={link.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`relative text-sm font-medium transition-colors hover:text-primary pb-1 ${
                 location.pathname === link.href ? 'text-primary' : 'text-muted-foreground'
               }`}
             >
               {link.label}
+              {location.pathname === link.href && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full transition-all" />
+              )}
             </Link>
           ))}
         </div>
@@ -79,7 +94,7 @@ export default function Navbar() {
           </Link>
           <Link
             to="/demo"
-            className="bg-poster-purple text-white px-4 py-2 text-sm font-medium rounded-md hover:opacity-90 transition-opacity shadow-sm"
+            className="btn-shimmer bg-poster-purple text-white px-4 py-2 text-sm font-medium rounded-md hover:opacity-90 transition-opacity shadow-sm"
           >
             Book a Demo
           </Link>
@@ -105,7 +120,6 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background">
           <div className="px-4 py-4 space-y-3">
-            {/* Mobile search */}
             <form onSubmit={(e) => { e.preventDefault(); const q = (e.target as any).query?.value?.trim(); if (q) { (e.target as any).query.value = ''; window.location.href = `/search?query=${encodeURIComponent(q)}` } }} className="flex items-center gap-2">
               <input name="query" placeholder="Search..." className="flex-1 px-3 py-2 rounded-md border border-border bg-background/60 text-sm" />
               <button type="submit" className="px-3 py-2 bg-primary text-white rounded-md text-sm">Search</button>

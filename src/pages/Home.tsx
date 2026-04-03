@@ -1,14 +1,33 @@
 import { Link } from 'react-router-dom';
-import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart } from 'lucide-react';
+import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart, Users, CheckCircle, Clock } from 'lucide-react';
 import { services, projects, products, team, siteInfo, campaignSpotlights } from '@/lib/data';
 import TeamMemberAvatar from '@/components/TeamMemberAvatar';
-import { useState, useEffect } from 'react';
+import ParticleBackground from '@/components/ParticleBackground';
+import SectionDivider from '@/components/SectionDivider';
+import FloatingIcons from '@/components/FloatingIcons';
+import TechMarquee from '@/components/TechMarquee';
+import Testimonials from '@/components/Testimonials';
+import { useState, useEffect, useRef } from 'react';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { useCountUp } from '@/hooks/useCountUp';
 
 const pillarIcons = [Headphones, BadgePercent, LineChart] as const;
 
 export default function Home() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [contactSent, setContactSent] = useState(false);
+
+  const aboutRef = useScrollReveal();
+  const servicesRef = useScrollReveal();
+  const projectsRef = useScrollReveal();
+  const productsRef = useScrollReveal();
+  const teamRef = useScrollReveal();
+  const contactRef = useScrollReveal();
+
+  const stat1 = useCountUp(6);
+  const stat2 = useCountUp(10);
+  const stat3 = useCountUp(3);
+  const stat4 = useCountUp(100);
 
   const handleContact = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,21 +36,21 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="page-fade-in">
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden scanline-overlay">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-accent/40 animate-gradient" />
+        <ParticleBackground />
+        <div className="absolute inset-0 bg-background/60" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,_hsl(18_89%_52%_/_0.12)_0%,_transparent_50%),radial-gradient(ellipse_at_20%_80%,_hsl(191_48%_42%_/_0.1)_0%,_transparent_45%)]" />
-        <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(135deg,transparent_40%,hsl(196_48%_91%_/_0.9)_40.5%,transparent_41%),linear-gradient(45deg,transparent_55%,hsl(18_89%_52%_/_0.06)_55.5%,transparent_56%)] pointer-events-none" />
         
-        {/* Hero carousel (images + video) */}
         <HeroCarousel />
         
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 animate-fade-in-up">
             {siteInfo.tagline}
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground mb-6 animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground mb-6 animate-fade-in-up" style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}>
             Websites &amp; Digital Marketing{' '}
             <span className="text-gradient">That Convert</span>
           </h1>
@@ -42,25 +61,28 @@ export default function Home() {
             {siteInfo.conversionLine}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-fade-in-up-delay-2">
-            <Link to="/projects" className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+            <Link to="/projects" className="btn-shimmer bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
               Explore Our Work
             </Link>
-            <Link to="/marketplace" className="border border-primary text-primary px-8 py-3 rounded-md font-medium hover:bg-primary/10 transition-colors">
+            <Link to="/marketplace" className="btn-shimmer border border-primary text-primary px-8 py-3 rounded-md font-medium hover:bg-primary/10 transition-colors">
               Visit Marketplace
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
           <ArrowDown className="w-6 h-6 text-muted-foreground" />
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* About Snippet */}
-      <section className="section-padding bg-card">
-        <div className="container-max">
+      <section ref={aboutRef} className="section-padding bg-card noise-overlay scroll-reveal">
+        <div className="container-max relative z-10">
+          <FloatingIcons />
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-foreground mb-4">Who We Are</h2>
+              <h2 className="text-3xl font-bold text-foreground mb-4 section-heading">Who We Are</h2>
               <p className="text-muted-foreground mb-4">
                 {siteInfo.legalName} is an IT services company based in {siteInfo.primaryLocation}, with a presence in{' '}
                 {siteInfo.locations[1]}. Founded in {siteInfo.foundedYear}, we specialise in {siteInfo.industry}
@@ -69,15 +91,25 @@ export default function Home() {
               <Link to="/about" className="text-primary font-medium hover:underline">Learn More →</Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="glass-card p-6 text-center hover-lift">
-                <Calendar className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-3xl font-bold text-foreground">{siteInfo.foundedYear}</p>
-                <p className="text-sm text-muted-foreground">Founded</p>
+              <div ref={stat1.ref} className="glass-card p-6 text-center hover-lift">
+                <Users className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">{stat1.value}</p>
+                <p className="text-sm text-muted-foreground">Team Members</p>
               </div>
-              <div className="glass-card p-6 text-center hover-lift">
+              <div ref={stat2.ref} className="glass-card p-6 text-center hover-lift">
                 <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-3xl font-bold text-foreground">{siteInfo.locations.length}</p>
-                <p className="text-sm text-muted-foreground">Locations in Kenya</p>
+                <p className="text-3xl font-bold text-foreground">{stat2.value}+</p>
+                <p className="text-sm text-muted-foreground">Projects Delivered</p>
+              </div>
+              <div ref={stat3.ref} className="glass-card p-6 text-center hover-lift">
+                <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">{stat3.value}</p>
+                <p className="text-sm text-muted-foreground">Years Building</p>
+              </div>
+              <div ref={stat4.ref} className="glass-card p-6 text-center hover-lift">
+                <CheckCircle className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">{stat4.value}%</p>
+                <p className="text-sm text-muted-foreground">Client Satisfaction</p>
               </div>
             </div>
           </div>
@@ -87,32 +119,39 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Services Preview */}
-      <section className="section-padding">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">What We Do</h2>
+      <section ref={servicesRef} className="section-padding noise-overlay scroll-reveal relative">
+        <FloatingIcons />
+        <div className="container-max relative z-10">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12 section-heading mx-auto">What We Do</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {services.slice(0, 3).map(service => (
-              <div key={service.slug} className="glass-card p-6 hover-lift">
-                <span className="text-3xl mb-4 block">{service.icon}</span>
+              <div key={service.slug} className="glass-card p-6 hover-lift group">
+                <div className="icon-glow w-14 h-14 flex items-center justify-center mb-4">
+                  <span className="text-2xl">{service.icon}</span>
+                </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">{service.title}</h3>
                 <p className="text-sm text-muted-foreground">{service.shortDescription}</p>
               </div>
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link to="/services" className="border border-primary text-primary px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
+            <Link to="/services" className="btn-shimmer border border-primary text-primary px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
               View All Services
             </Link>
           </div>
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Program & pillars from collateral */}
-      <section className="section-padding bg-card">
-        <div className="container-max grid lg:grid-cols-2 gap-12">
+      <section className="section-padding bg-card noise-overlay">
+        <div className="container-max relative z-10 grid lg:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-4">Our program</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-4 section-heading">Our program</h2>
             <p className="text-muted-foreground text-sm mb-6">
               Core capabilities we bring to every engagement — from first concept to launch and beyond.
             </p>
@@ -126,7 +165,7 @@ export default function Home() {
             </ul>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-4">Why teams choose us</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-4 section-heading">Why teams choose us</h2>
             <div className="flex flex-wrap gap-2 mb-6">
               {siteInfo.marketingPillars.map((label, i) => {
                 const Icon = pillarIcons[i] ?? Headphones;
@@ -153,14 +192,23 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Projects Preview */}
-      <section className="section-padding bg-card">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Our Work</h2>
+      <section ref={projectsRef} className="section-padding bg-card noise-overlay scroll-reveal relative">
+        <FloatingIcons />
+        <div className="container-max relative z-10">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12 section-heading mx-auto">Our Work</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {projects.slice(0, 3).map(project => (
               <Link key={project.slug} to={`/projects/${project.slug}`} className="glass-card overflow-hidden hover-lift group">
-                <img src={project.thumbnail} alt={project.title} className="w-full h-48 object-cover" loading="lazy" />
+                <div className="project-card-img relative h-48">
+                  <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <span className="text-primary text-sm font-medium">View Project →</span>
+                  </div>
+                </div>
                 <div className="p-5">
                   <h3 className="text-lg font-semibold text-foreground mb-1">{project.title}</h3>
                   <p className="text-sm text-muted-foreground mb-3">{project.tagline}</p>
@@ -174,17 +222,19 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link to="/projects" className="border border-primary text-primary px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
+            <Link to="/projects" className="btn-shimmer border border-primary text-primary px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
               View All Projects
             </Link>
           </div>
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Live campaigns & partnerships */}
-      <section className="section-padding border-y border-border bg-card/50">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-4">Campaigns &amp; live launches</h2>
+      <section className="section-padding border-y border-border bg-card/50 noise-overlay">
+        <div className="container-max relative z-10">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-4 section-heading mx-auto">Campaigns &amp; live launches</h2>
           <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12 text-sm">
             Product updates and on-air partnerships — quality with expertise, in the open.
           </p>
@@ -200,7 +250,7 @@ export default function Home() {
                       href={spot.primaryCta.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex w-fit items-center bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+                      className="btn-shimmer inline-flex w-fit items-center bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
                     >
                       {spot.primaryCta.label}
                     </a>
@@ -215,35 +265,62 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionDivider />
+
+      {/* Tech Stack Marquee */}
+      <TechMarquee />
+
+      <SectionDivider />
+
       {/* Products Preview */}
-      <section className="section-padding">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">From Our Marketplace</h2>
+      <section ref={productsRef} className="section-padding noise-overlay scroll-reveal">
+        <div className="container-max relative z-10">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12 section-heading mx-auto">From Our Marketplace</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {products.slice(0, 3).map(product => (
-              <Link key={product.slug} to={`/marketplace/${product.slug}`} className="glass-card p-5 hover-lift">
-                <img src={product.images[0]} alt={product.name} className="w-full h-40 object-cover rounded mb-4" loading="lazy" />
-                <span className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded">{product.category}</span>
-                <h3 className="text-lg font-semibold text-foreground mt-2 mb-1">{product.name}</h3>
-                <p className="text-sm text-muted-foreground mb-2">by {product.creator}</p>
-                <p className="text-primary font-semibold">
-                  {product.priceType === 'subscription' ? `From KES ${product.price}/mo` : `KES ${product.price.toLocaleString()}`}
-                </p>
+              <Link key={product.slug} to={`/marketplace/${product.slug}`} className="glass-card overflow-hidden hover-lift marketplace-card">
+                <div className="relative">
+                  <img src={product.images[0]} alt={product.name} className="w-full h-44 object-cover" loading="lazy" />
+                  <span className="absolute top-3 right-3 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded">{product.category}</span>
+                </div>
+                <div className="p-5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                      <span className="text-[10px] font-bold text-primary">{product.creator[0]}</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{product.creator}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-1">{product.name}</h3>
+                  <p className="text-primary font-bold">
+                    {product.priceType === 'subscription' ? (
+                      <span className="flex items-center gap-1">⚡ From KES {product.price}/mo</span>
+                    ) : (
+                      `KES ${product.price.toLocaleString()}`
+                    )}
+                  </p>
+                </div>
               </Link>
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link to="/marketplace" className="bg-primary text-primary-foreground px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
+            <Link to="/marketplace" className="btn-shimmer bg-primary text-primary-foreground px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
               Shop Now
             </Link>
           </div>
         </div>
       </section>
 
+      <SectionDivider />
+
+      {/* Testimonials */}
+      <Testimonials />
+
+      <SectionDivider />
+
       {/* Brand collateral */}
-      <section className="section-padding bg-card">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-4">From our brand studio</h2>
+      <section className="section-padding bg-card noise-overlay">
+        <div className="container-max relative z-10">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-4 section-heading mx-auto">From our brand studio</h2>
           <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-10 text-sm">
             Creative direction across digital marketing, business growth, and custom website storytelling.
           </p>
@@ -270,10 +347,12 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Team */}
-      <section className="section-padding bg-card">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Meet the Team</h2>
+      <section ref={teamRef} className="section-padding bg-card noise-overlay scroll-reveal">
+        <div className="container-max relative z-10">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12 section-heading mx-auto">Meet the Team</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {team.map(member => (
               <div key={member.name} className="text-center hover-lift poster-glow rounded-xl p-4 bg-card border border-border">
@@ -287,10 +366,12 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Contact */}
-      <section className="section-padding">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Let's Work Together</h2>
+      <section ref={contactRef} className="section-padding noise-overlay scroll-reveal">
+        <div className="container-max relative z-10">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12 section-heading mx-auto">Let's Work Together</h2>
           <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
             <form onSubmit={handleContact} className="space-y-4">
               {contactSent ? (
@@ -316,7 +397,7 @@ export default function Home() {
                     value={contactForm.message} onChange={e => setContactForm(p => ({ ...p, message: e.target.value }))}
                     className="w-full bg-card border border-border rounded-md px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary resize-none"
                   />
-                  <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                  <button type="submit" className="btn-shimmer w-full bg-primary text-primary-foreground py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
                     Send Message
                   </button>
                 </>
@@ -398,14 +479,13 @@ export default function Home() {
 
 function HeroCarousel() {
   const slides = [
-    { type: 'image', src: '/hero/team-meeting-1.png', alt: 'Team collaboration' },
-    { type: 'image', src: '/hero/team-meeting-2.png', alt: 'Team meeting' },
-    { type: 'video', src: '/videos/video.mp4', alt: 'Intro video' },
-    { type: 'image', src: '/hero/team-meeting-3.png', alt: 'Team discussion' },
+    { type: 'image' as const, src: '/hero/team-meeting-1.png', alt: 'Team collaboration' },
+    { type: 'image' as const, src: '/hero/team-meeting-2.png', alt: 'Team meeting' },
+    { type: 'video' as const, src: '/videos/video.mp4', alt: 'Intro video' },
+    { type: 'image' as const, src: '/hero/team-meeting-3.png', alt: 'Team discussion' },
   ];
   const [index, setIndex] = useState(0);
 
-  // autoplay
   useEffect(() => {
     const id = setInterval(() => setIndex(i => (i + 1) % slides.length), 5000);
     return () => clearInterval(id);
@@ -416,7 +496,7 @@ function HeroCarousel() {
       {slides.map((s, i) => (
         <div
           key={i}
-          className={`absolute inset-0 transition-opacity duration-700 ${i === index ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}
+          className={`absolute inset-0 transition-opacity duration-700 ${i === index ? 'opacity-100 z-[6]' : 'opacity-0 z-0 pointer-events-none'}`}
         >
           {s.type === 'image' ? (
             <div className="absolute top-10 left-10 w-96 h-64 opacity-25">
