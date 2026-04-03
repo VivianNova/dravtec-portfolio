@@ -1,14 +1,60 @@
 import { Link } from 'react-router-dom';
-import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart } from 'lucide-react';
+import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { services, projects, products, team, siteInfo, campaignSpotlights } from '@/lib/data';
 import TeamMemberAvatar from '@/components/TeamMemberAvatar';
 import { useState, useEffect } from 'react';
 
 const pillarIcons = [Headphones, BadgePercent, LineChart] as const;
 
+const heroMedia = [
+  { 
+    type: 'video', 
+    src: '/hero/hero-background.mp4',
+    title: 'Digital Excellence',
+    subtitle: 'Transforming ideas into powerful digital experiences'
+  },
+  { 
+    type: 'image', 
+    src: '/hero/hero1.jpeg',
+    title: 'Innovative Solutions',
+    subtitle: 'Custom websites and marketing that drive results'
+  },
+  { 
+    type: 'image', 
+    src: '/hero/hero2.jpeg',
+    title: 'Expert Team',
+    subtitle: 'Quality with expertise in every project'
+  },
+];
+
+const galleryImages = [
+  '/gallery/all.jpeg',
+  '/gallery/all1.jpeg', 
+  '/gallery/board.jpeg',
+  '/gallery/cert.jpeg',
+  '/gallery/cert2.jpeg',
+  '/gallery/cert3.jpeg',
+  '/gallery/cert4.jpeg',
+  '/gallery/cert5.jpeg',
+  '/gallery/cert6.jpeg',
+  '/gallery/media.jpeg',
+  '/gallery/studio1.jpeg',
+  '/gallery/team.jpeg',
+];
+
 export default function Home() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [contactSent, setContactSent] = useState(false);
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroIndex((prev) => (prev + 1) % heroMedia.length);
+    }, 5000); // Change every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleContact = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,38 +66,90 @@ export default function Home() {
     <div>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-accent/40 animate-gradient" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,_hsl(18_89%_52%_/_0.12)_0%,_transparent_50%),radial-gradient(ellipse_at_20%_80%,_hsl(191_48%_42%_/_0.1)_0%,_transparent_45%)]" />
-        <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(135deg,transparent_40%,hsl(196_48%_91%_/_0.9)_40.5%,transparent_41%),linear-gradient(45deg,transparent_55%,hsl(18_89%_52%_/_0.06)_55.5%,transparent_56%)] pointer-events-none" />
+        {/* Carousel Media */}
+        <div className="absolute inset-0 w-full h-full">
+          {heroMedia.map((media, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+                index === currentHeroIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              {media.type === 'video' ? (
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source src={media.src} type="video/mp4" />
+                </video>
+              ) : (
+                <img
+                  src={media.src}
+                  alt={`Hero ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+          ))}
+        </div>
         
-        {/* Hero carousel (images + video) */}
-        <HeroCarousel />
+        {/* Minimal overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-10" />
         
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 animate-fade-in-up">
+        {/* Carousel Controls */}
+        <button
+          onClick={() => setCurrentHeroIndex((prev) => (prev - 1 + heroMedia.length) % heroMedia.length)}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-colors"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={() => setCurrentHeroIndex((prev) => (prev + 1) % heroMedia.length)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-colors"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+        
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {heroMedia.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentHeroIndex(index)}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                index === currentHeroIndex ? 'bg-white' : 'bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+        
+        <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
+          <p className="text-xs uppercase tracking-[0.2em] text-white mb-4 animate-fade-in-up">
             {siteInfo.tagline}
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground mb-6 animate-fade-in-up">
-            Websites &amp; Digital Marketing{' '}
-            <span className="text-gradient">That Convert</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 animate-fade-in-up">
+            {heroMedia[currentHeroIndex].title}
           </h1>
-          <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto animate-fade-in-up animate-fade-in-up-delay-1">
-            {siteInfo.heroBlurb}
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto animate-fade-in-up animate-fade-in-up-delay-1">
+            {heroMedia[currentHeroIndex].subtitle}
           </p>
-          <p className="text-lg text-primary/90 font-medium italic mb-10 animate-fade-in-up animate-fade-in-up-delay-1">
+          <p className="text-lg text-white/80 font-medium italic mb-10 animate-fade-in-up animate-fade-in-up-delay-2">
             {siteInfo.conversionLine}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-fade-in-up-delay-2">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-fade-in-up-delay-3">
             <Link to="/projects" className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
               Explore Our Work
             </Link>
-            <Link to="/marketplace" className="border border-primary text-primary px-8 py-3 rounded-md font-medium hover:bg-primary/10 transition-colors">
+            <Link to="/marketplace" className="border border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white/10 transition-colors">
               Visit Marketplace
             </Link>
           </div>
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <ArrowDown className="w-6 h-6 text-muted-foreground" />
+          <ArrowDown className="w-6 h-6 text-white" />
         </div>
       </section>
 
@@ -266,6 +364,61 @@ export default function Home() {
               className="w-full rounded-lg border border-border object-cover shadow-md"
               loading="lazy"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="section-padding bg-card">
+        <div className="container-max">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Gallery</h2>
+          <div className="relative overflow-hidden rounded-lg">
+            <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentGalleryIndex * 100}%)` }}>
+              {galleryImages.map((image, index) => (
+                <div key={index} className="w-full flex-shrink-0">
+                  <div className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <img
+                      src={image}
+                      alt={`Gallery ${index + 1}`}
+                      className="w-full h-96 object-cover transition-transform duration-300 group-hover:scale-110"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-4 left-4 text-white">
+                        <p className="text-sm font-medium">View Image</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Gallery Controls */}
+            <button
+              onClick={() => setCurrentGalleryIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setCurrentGalleryIndex((prev) => (prev + 1) % galleryImages.length)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+            
+            {/* Gallery Indicators */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+              {galleryImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentGalleryIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    index === currentGalleryIndex ? 'bg-white' : 'bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

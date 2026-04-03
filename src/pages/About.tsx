@@ -12,13 +12,36 @@ const values = [
 export default function About() {
   return (
     <div className="pt-16">
-      <section className="section-padding bg-card">
-        <div className="container-max text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{siteInfo.tagline}</p>
-          <h1 className="text-4xl font-bold text-foreground mb-4">About {siteInfo.brandName}</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+      {/* Hero Section */}
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+        {/* Hero Background */}
+        <img 
+          src="/hero/hero1.jpeg" 
+          alt="About DravTech" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        
+        {/* Overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+        
+        {/* Content */}
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <p className="text-xs uppercase tracking-[0.2em] text-white mb-3">{siteInfo.tagline}</p>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">About {siteInfo.brandName}</h1>
+          <p className="text-lg text-white/90 max-w-2xl mx-auto">
             {siteInfo.legalName} — {siteInfo.industry}
           </p>
+        </div>
+      </section>
+
+      <section className="section-padding bg-card">
+        <div className="container-max text-center">
+          <h2 className="text-3xl font-bold text-foreground mb-4">Our Story</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            {siteInfo.legalName} is an IT services company based in {siteInfo.primaryLocation}, with a presence in{' '}
+            {siteInfo.locations[1]}. Founded in {siteInfo.foundedYear}, we specialise in {siteInfo.industry}
+          </p>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">{siteInfo.growthBlurb}</p>
         </div>
       </section>
 
@@ -29,10 +52,10 @@ export default function About() {
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             <img src="/hero/team-meeting-1.png" alt="Team collaboration" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
             <img src="/hero/team-meeting-2.png" alt="Team meeting" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/hero/team-meeting-3.png" alt="Team discussion" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/marketing/dravtech-digital-marketing.png" alt="Digital marketing" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/marketing/flyer-business-growth.png" alt="Business growth flyer" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
-            <img src="/marketing/merch-hoodie.png" alt="Merch hoodie" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
+            <img src="/hero/team-discussion.png" alt="Team discussion" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
+            <img src="/hero/digital-marketing.png" alt="Digital marketing" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
+            <img src="/hero/merch-hoodie.png" alt="Merch hoodie" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
+            <img src="/hero/hero1.jpeg" alt="Team work" className="w-full h-48 object-cover rounded-lg shadow" loading="lazy" />
           </div>
         </div>
       </section>

@@ -41,9 +41,11 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 bg-poster-navy rounded-sm flex items-center justify-center shadow-sm ring-1 ring-primary/25">
-                <span className="text-white font-bold text-xs">D</span>
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="DravTech Logo" 
+                className="w-7 h-7 object-contain"
+              />
               <span className="text-foreground font-bold text-lg">{siteInfo.brandName}</span>
             </Link>
             <p className="text-muted-foreground text-sm uppercase tracking-wide">{siteInfo.tagline}</p>

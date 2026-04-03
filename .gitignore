@@ -34,6 +34,10 @@ dist-ssr
 *.m4v
 *.3gp
 *.ogv
+
+# Exceptions for hero videos
+!/public/hero/hero-background.mp4
+!/public/hero/*.mp4
 *.gif
 *.psd
 *.ai
