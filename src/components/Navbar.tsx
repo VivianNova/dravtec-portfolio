@@ -40,9 +40,9 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#FAFAFA]/90 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
-          : 'bg-[#FAFAFA]'
-      } border-b border-[#E5E7EB]`}
+          ? 'bg-background/90 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+          : 'bg-background'
+      } border-b border-border`}
     >
       <div className="container-max flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 group">
