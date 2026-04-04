@@ -93,8 +93,15 @@ export default function Navbar() {
           />
         </form>
 
-        <div className="hidden md:flex items-center gap-4">
-          <Link to="/cart" className="relative text-[#1A1A2E] hover:text-primary transition-colors">
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full text-foreground hover:bg-muted transition-colors"
+            aria-label="Toggle theme"
+          >
+            {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <Link to="/cart" className="relative text-foreground hover:text-primary transition-colors">
             <ShoppingCart className="w-5 h-5" />
             {itemCount > 0 && (
               <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
