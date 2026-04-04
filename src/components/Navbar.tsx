@@ -52,7 +52,7 @@ export default function Navbar() {
             className="w-8 h-8 object-contain"
           />
           <div className="flex flex-col leading-tight">
-            <span className="text-[#1A1A2E] font-bold text-xl tracking-tight">DravTech</span>
+            <span className="text-foreground font-bold text-xl tracking-tight">DravTech</span>
             <span className="hidden sm:block text-[10px] uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
               {siteInfo.tagline}
             </span>
