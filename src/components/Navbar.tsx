@@ -66,7 +66,7 @@ export default function Navbar() {
               key={link.href}
               to={link.href}
               className={`relative text-sm font-medium transition-colors hover:text-primary py-1 ${
-                location.pathname === link.href ? 'text-primary' : 'text-[#1A1A2E]'
+                location.pathname === link.href ? 'text-primary' : 'text-foreground'
               }`}
             >
               {link.label}
@@ -89,7 +89,7 @@ export default function Navbar() {
             placeholder="Search..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="px-3 py-2 text-sm rounded-lg border border-[#E5E7EB] bg-white text-[#1A1A2E] placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+            className="px-3 py-2 text-sm rounded-lg border border-border bg-white text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
           />
         </form>
 
@@ -138,10 +138,10 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-[#E5E7EB] bg-[#FAFAFA]">
+        <div className="md:hidden border-t border-border bg-background">
           <div className="px-4 py-4 space-y-3">
             <form onSubmit={(e) => { e.preventDefault(); const q = (e.target as any).query?.value?.trim(); if (q) { (e.target as any).query.value = ''; window.location.href = `/search?query=${encodeURIComponent(q)}` } }} className="flex items-center gap-2">
-              <input name="query" placeholder="Search..." className="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] bg-white text-[#1A1A2E] placeholder:text-muted-foreground text-sm" />
+              <input name="query" placeholder="Search..." className="flex-1 px-3 py-2 rounded-lg border border-border bg-white text-foreground placeholder:text-muted-foreground text-sm" />
               <button type="submit" className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">Search</button>
             </form>
             {navLinks.map(link => (
@@ -150,7 +150,7 @@ export default function Navbar() {
                 to={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={`block text-sm font-medium py-2 ${
-                  location.pathname === link.href ? 'text-primary' : 'text-[#1A1A2E]'
+                  location.pathname === link.href ? 'text-primary' : 'text-foreground'
                 }`}
               >
                 {link.label}
