@@ -1,26 +1,29 @@
 import { Link } from 'react-router-dom';
-import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowDown, MapPin, Calendar, Send, Headphones, BadgePercent, LineChart, ChevronLeft, ChevronRight, Globe, Code, Palette, MessageSquare, BarChart3, Cloud, Phone, Mail, ExternalLink, Linkedin, Twitter, Github, X as XIcon, Maximize2 } from 'lucide-react';
 import { services, projects, products, team, siteInfo, campaignSpotlights } from '@/lib/data';
 import TeamMemberAvatar from '@/components/TeamMemberAvatar';
 import { useState, useEffect } from 'react';
+import type { TeamMember } from '@/lib/data';
 
 const pillarIcons = [Headphones, BadgePercent, LineChart] as const;
 
+const serviceIcons = [Globe, Code, Palette, MessageSquare, BarChart3, Cloud];
+
 const heroMedia = [
-  { 
-    type: 'video', 
+  {
+    type: 'video',
     src: '/hero/hero-background.mp4',
     title: 'Digital Excellence',
     subtitle: 'Transforming ideas into powerful digital experiences'
   },
-  { 
-    type: 'image', 
+  {
+    type: 'image',
     src: '/hero/hero1.jpeg',
     title: 'Innovative Solutions',
     subtitle: 'Custom websites and marketing that drive results'
   },
-  { 
-    type: 'image', 
+  {
+    type: 'image',
     src: '/hero/hero2.jpeg',
     title: 'Expert Team',
     subtitle: 'Quality with expertise in every project'
@@ -29,7 +32,7 @@ const heroMedia = [
 
 const galleryImages = [
   '/gallery/all.jpeg',
-  '/gallery/all1.jpeg', 
+  '/gallery/all1.jpeg',
   '/gallery/board.jpeg',
   '/gallery/cert.jpeg',
   '/gallery/cert2.jpeg',
@@ -46,13 +49,12 @@ export default function Home() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [contactSent, setContactSent] = useState(false);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
-  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHeroIndex((prev) => (prev + 1) % heroMedia.length);
-    }, 5000); // Change every 5 seconds
-
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -64,9 +66,8 @@ export default function Home() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Carousel Media */}
+      {/* ═══ HERO ═══ */}
+      <section className="relative min-h-[90vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
           {heroMedia.map((media, index) => (
             <div
@@ -77,11 +78,9 @@ export default function Home() {
             >
               {media.type === 'video' ? (
                 <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                  autoPlay muted loop playsInline
                   className="w-full h-full object-cover"
+                  style={{ objectPosition: 'center top' }}
                 >
                   <source src={media.src} type="video/mp4" />
                 </video>
@@ -90,70 +89,73 @@ export default function Home() {
                   src={media.src}
                   alt={`Hero ${index + 1}`}
                   className="w-full h-full object-cover"
+                  style={{ objectPosition: 'center top' }}
                 />
               )}
             </div>
           ))}
         </div>
-        
-        {/* Minimal overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-10" />
-        
-        {/* Carousel Controls */}
+
+        {/* Bottom-heavy gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10 z-10" />
+
+        {/* Carousel arrows — frosted circles */}
         <button
           onClick={() => setCurrentHeroIndex((prev) => (prev - 1 + heroMedia.length) % heroMedia.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-colors"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all border border-white/20"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={() => setCurrentHeroIndex((prev) => (prev + 1) % heroMedia.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-colors"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all border border-white/20"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </button>
-        
-        {/* Carousel Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-          {heroMedia.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentHeroIndex(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                index === currentHeroIndex ? 'bg-white' : 'bg-white/50'
-              }`}
-            />
-          ))}
-        </div>
-        
-        <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.2em] text-white mb-4 animate-fade-in-up">
+
+        {/* Content panel at bottom center */}
+        <div className="relative z-20 mb-16 mx-4 max-w-3xl w-full bg-black/40 backdrop-blur-md rounded-2xl p-8 text-center border border-white/10">
+          <p className="text-xs uppercase tracking-[0.2em] text-white/70 mb-3">
             {siteInfo.tagline}
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 animate-fade-in-up">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 animate-fade-in-up">
             {heroMedia[currentHeroIndex].title}
           </h1>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto animate-fade-in-up animate-fade-in-up-delay-1">
+          <p className="text-lg text-white/90 mb-4 max-w-xl mx-auto">
             {heroMedia[currentHeroIndex].subtitle}
           </p>
-          <p className="text-lg text-white/80 font-medium italic mb-10 animate-fade-in-up animate-fade-in-up-delay-2">
+          <p className="text-sm text-white/60 italic mb-6">
             {siteInfo.conversionLine}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-fade-in-up-delay-3">
-            <Link to="/projects" className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link to="/projects" className="bg-primary text-primary-foreground px-7 py-3 rounded-full font-medium hover:bg-primary/90 transition-colors">
               Explore Our Work
             </Link>
-            <Link to="/marketplace" className="border border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white/10 transition-colors">
+            <Link to="/marketplace" className="border border-white/40 text-white px-7 py-3 rounded-full font-medium hover:bg-white/10 transition-colors">
               Visit Marketplace
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <ArrowDown className="w-6 h-6 text-white" />
+
+        {/* Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {heroMedia.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentHeroIndex(index)}
+              className={`w-2.5 h-2.5 rounded-full transition-all ${
+                index === currentHeroIndex ? 'bg-white w-6' : 'bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 animate-bounce z-20 hidden sm:block">
+          <ArrowDown className="w-5 h-5 text-white/60" />
         </div>
       </section>
 
-      {/* About Snippet */}
+      {/* ═══ ABOUT SNIPPET ═══ */}
       <section className="section-padding bg-card">
         <div className="container-max">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -185,28 +187,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Preview */}
-      <section className="section-padding">
+      {/* ═══ SERVICES — Bento Grid ═══ */}
+      <section className="section-padding bg-[#F5F5F0]">
         <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">What We Do</h2>
+          <h2 className="text-3xl font-bold text-foreground text-center mb-3">What We Do</h2>
+          <p className="text-muted-foreground text-center mb-12 max-w-xl mx-auto text-sm">Core capabilities we bring to every engagement.</p>
           <div className="grid md:grid-cols-3 gap-6">
-            {services.slice(0, 3).map(service => (
-              <div key={service.slug} className="glass-card p-6 hover-lift">
-                <span className="text-3xl mb-4 block">{service.icon}</span>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{service.title}</h3>
-                <p className="text-sm text-muted-foreground">{service.shortDescription}</p>
-              </div>
-            ))}
+            {services.slice(0, 3).map((service, i) => {
+              const Icon = serviceIcons[i] ?? Globe;
+              return (
+                <div
+                  key={service.slug}
+                  className="relative bg-white rounded-xl p-6 border-l-4 border-primary shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 overflow-hidden group"
+                >
+                  {/* Big number watermark */}
+                  <span className="absolute top-2 right-4 text-7xl font-black text-black/[0.04] select-none leading-none">
+                    0{i + 1}
+                  </span>
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{service.title}</h3>
+                  <p className="text-sm text-muted-foreground">{service.shortDescription}</p>
+                </div>
+              );
+            })}
           </div>
-          <div className="text-center mt-8">
-            <Link to="/services" className="border border-primary text-primary px-6 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
+          <div className="text-center mt-10">
+            <Link to="/services" className="border-2 border-primary text-primary px-6 py-2.5 rounded-full text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
               View All Services
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Program & pillars from collateral */}
+      {/* ═══ PROGRAM & PILLARS ═══ */}
       <section className="section-padding bg-card">
         <div className="container-max grid lg:grid-cols-2 gap-12">
           <div>
@@ -229,10 +244,7 @@ export default function Home() {
               {siteInfo.marketingPillars.map((label, i) => {
                 const Icon = pillarIcons[i] ?? Headphones;
                 return (
-                  <span
-                    key={label}
-                    className="inline-flex items-center gap-2 text-sm bg-secondary text-secondary-foreground px-3 py-2 rounded-full"
-                  >
+                  <span key={label} className="inline-flex items-center gap-2 text-sm bg-secondary text-secondary-foreground px-3 py-2 rounded-full">
                     <Icon className="w-4 h-4 text-primary" />
                     {label}
                   </span>
@@ -242,23 +254,23 @@ export default function Home() {
             <h3 className="text-sm font-semibold text-primary uppercase tracking-wide mb-3">Benefits</h3>
             <ul className="grid sm:grid-cols-2 gap-3">
               {siteInfo.clientBenefits.map(b => (
-                <li key={b} className="glass-card p-4 text-sm text-muted-foreground">
-                  {b}
-                </li>
+                <li key={b} className="glass-card p-4 text-sm text-muted-foreground">{b}</li>
               ))}
             </ul>
           </div>
         </div>
       </section>
 
-      {/* Projects Preview */}
+      {/* ═══ PROJECTS PREVIEW ═══ */}
       <section className="section-padding bg-card">
         <div className="container-max">
           <h2 className="text-3xl font-bold text-foreground text-center mb-12">Our Work</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {projects.slice(0, 3).map(project => (
               <Link key={project.slug} to={`/projects/${project.slug}`} className="glass-card overflow-hidden hover-lift group">
-                <img src={project.thumbnail} alt={project.title} className="w-full h-48 object-cover" loading="lazy" />
+                <div className="overflow-hidden h-48">
+                  <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                </div>
                 <div className="p-5">
                   <h3 className="text-lg font-semibold text-foreground mb-1">{project.title}</h3>
                   <p className="text-sm text-muted-foreground mb-3">{project.tagline}</p>
@@ -279,7 +291,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Live campaigns & partnerships */}
+      {/* ═══ CAMPAIGNS ═══ */}
       <section className="section-padding border-y border-border bg-card/50">
         <div className="container-max">
           <h2 className="text-3xl font-bold text-foreground text-center mb-4">Campaigns &amp; live launches</h2>
@@ -293,19 +305,14 @@ export default function Home() {
                 <div className="p-6 flex-1 flex flex-col">
                   <h3 className="text-xl font-semibold text-foreground mb-2">{spot.headline}</h3>
                   <p className="text-sm text-muted-foreground mb-4 flex-1">{spot.body}</p>
-                  {spot.primaryCta ? (
-                    <a
-                      href={spot.primaryCta.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex w-fit items-center bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
-                    >
+                  {spot.primaryCta && (
+                    <a href={spot.primaryCta.href} target="_blank" rel="noopener noreferrer" className="inline-flex w-fit items-center bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
                       {spot.primaryCta.label}
                     </a>
-                  ) : null}
-                  {spot.meta ? <p className="text-xs text-primary mt-4 font-medium">{spot.meta}</p> : null}
-                  {spot.partner ? <p className="text-xs text-muted-foreground mt-1">{spot.partner}</p> : null}
-                  {spot.secondaryNote ? <p className="text-xs text-muted-foreground mt-4">{spot.secondaryNote}</p> : null}
+                  )}
+                  {spot.meta && <p className="text-xs text-primary mt-4 font-medium">{spot.meta}</p>}
+                  {spot.partner && <p className="text-xs text-muted-foreground mt-1">{spot.partner}</p>}
+                  {spot.secondaryNote && <p className="text-xs text-muted-foreground mt-4">{spot.secondaryNote}</p>}
                 </div>
               </article>
             ))}
@@ -313,7 +320,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Products Preview */}
+      {/* ═══ PRODUCTS PREVIEW ═══ */}
       <section className="section-padding">
         <div className="container-max">
           <h2 className="text-3xl font-bold text-foreground text-center mb-12">From Our Marketplace</h2>
@@ -338,7 +345,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Brand collateral */}
+      {/* ═══ BRAND COLLATERAL ═══ */}
       <section className="section-padding bg-card">
         <div className="container-max">
           <h2 className="text-3xl font-bold text-foreground text-center mb-4">From our brand studio</h2>
@@ -346,271 +353,220 @@ export default function Home() {
             Creative direction across digital marketing, business growth, and custom website storytelling.
           </p>
           <div className="grid md:grid-cols-3 gap-4">
-            <img
-              src="/marketing/flyer-digital-marketing.png"
-              alt="DravTech digital marketing flyer: expert support, affordable pricing, and website analytics"
-              className="w-full rounded-lg border border-border object-cover shadow-md"
-              loading="lazy"
-            />
-            <img
-              src="/marketing/flyer-business-growth.png"
-              alt="DravTech business growth flyer: mobile-first design, credibility, efficiency, and security"
-              className="w-full rounded-lg border border-border object-cover shadow-md"
-              loading="lazy"
-            />
-            <img
-              src="/marketing/flyer-custom-websites.png"
-              alt="DravTech custom website design and development program overview"
-              className="w-full rounded-lg border border-border object-cover shadow-md"
-              loading="lazy"
-            />
+            <img src="/marketing/flyer-digital-marketing.png" alt="DravTech digital marketing flyer" className="w-full rounded-lg border border-border object-cover shadow-md" loading="lazy" />
+            <img src="/marketing/flyer-business-growth.png" alt="DravTech business growth flyer" className="w-full rounded-lg border border-border object-cover shadow-md" loading="lazy" />
+            <img src="/marketing/flyer-custom-websites.png" alt="DravTech custom website design flyer" className="w-full rounded-lg border border-border object-cover shadow-md" loading="lazy" />
           </div>
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="section-padding bg-card">
+      {/* ═══ GALLERY — Static Grid ═══ */}
+      <section className="section-padding bg-[#F5F5F0]">
         <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Gallery</h2>
-          <div className="relative overflow-hidden rounded-lg">
-            <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentGalleryIndex * 100}%)` }}>
-              {/* Group images into sets of 5 for each slider */}
-              {Array.from({ length: Math.ceil(galleryImages.length / 5) }).map((_, slideIndex) => (
-                <div key={slideIndex} className="w-full flex-shrink-0">
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    {galleryImages.slice(slideIndex * 5, (slideIndex + 1) * 5).map((image, imgIndex) => (
-                      <div
-                        key={`${slideIndex}-${imgIndex}`}
-                        className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-                      >
-                        <img
-                          src={image}
-                          alt={`Gallery ${slideIndex * 5 + imgIndex + 1}`}
-                          className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-110"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="absolute bottom-2 left-2 text-white">
-                            <p className="text-xs font-medium">View Image</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {/* Gallery Controls */}
-            {Math.ceil(galleryImages.length / 5) > 1 && (
-              <>
-                <button
-                  onClick={() => setCurrentGalleryIndex((prev) => (prev - 1 + Math.ceil(galleryImages.length / 5)) % Math.ceil(galleryImages.length / 5))}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <button
-                  onClick={() => setCurrentGalleryIndex((prev) => (prev + 1) % Math.ceil(galleryImages.length / 5))}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-                
-                {/* Gallery Indicators */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-                  {Array.from({ length: Math.ceil(galleryImages.length / 5) }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentGalleryIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-colors ${
-                        index === currentGalleryIndex ? 'bg-white' : 'bg-white/50'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-foreground mb-2">Gallery</h2>
+            <div className="w-12 h-1 bg-primary rounded-full mx-auto" />
           </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="section-padding bg-card">
-        <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Meet the Team</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {team.map(member => (
-              <div key={member.name} className="text-center hover-lift poster-glow rounded-xl p-4 bg-card border border-border">
-                <TeamMemberAvatar member={member} size="md" className="mx-auto mb-3 ring-2 ring-primary/10" />
-                <h4 className="text-sm font-semibold text-foreground leading-snug">{member.name}</h4>
-                <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
-                <p className="text-xs text-primary font-medium mt-0.5">{member.sector}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {galleryImages.map((image, i) => (
+              <div
+                key={i}
+                className="group relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer aspect-[4/3]"
+              >
+                <img
+                  src={image}
+                  alt={`Gallery ${i + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                  <Maximize2 className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact */}
-      <section className="section-padding">
+      {/* ═══ TEAM ═══ */}
+      <section className="section-padding bg-card">
         <div className="container-max">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Let's Work Together</h2>
-          <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            <form onSubmit={handleContact} className="space-y-4">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Meet the Team</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {team.map(member => (
+              <div key={member.name} className="text-center bg-white rounded-2xl p-5 shadow-[0_2px_16px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300">
+                <div className="mx-auto mb-3 w-[120px] h-[120px]">
+                  <TeamMemberAvatar member={member} size="md" className="!w-[120px] !h-[120px] ring-[3px] ring-primary/40 shadow-md" />
+                </div>
+                <h4 className="text-sm font-semibold text-foreground leading-snug">{member.name}</h4>
+                <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
+                <p className="text-xs text-primary font-medium mt-0.5 mb-2">{member.sector}</p>
+                {/* Social icons */}
+                <div className="flex justify-center gap-1.5 mb-2">
+                  <a href="#" className="text-muted-foreground hover:text-[#0077B5] transition-colors"><Linkedin className="w-3.5 h-3.5" /></a>
+                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><Twitter className="w-3.5 h-3.5" /></a>
+                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><Github className="w-3.5 h-3.5" /></a>
+                </div>
+                <button
+                  onClick={() => setSelectedMember(member)}
+                  className="text-xs text-primary border border-primary/30 rounded-full px-3 py-1 hover:bg-primary/10 transition-colors"
+                >
+                  View Bio
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Bio Modal */}
+      {selectedMember && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setSelectedMember(null)}>
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          <div
+            className="relative bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl animate-fade-in-up z-10"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedMember(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <XIcon className="w-5 h-5" />
+            </button>
+            <div className="text-center">
+              <div className="mx-auto mb-4 w-24 h-24">
+                <TeamMemberAvatar member={selectedMember} size="md" className="!w-24 !h-24 ring-[3px] ring-primary/40" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground">{selectedMember.name}</h3>
+              <p className="text-sm text-muted-foreground">{selectedMember.role}</p>
+              <span className="inline-block mt-1 text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">
+                {selectedMember.sector}
+              </span>
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                {selectedMember.bio}
+              </p>
+              <div className="flex justify-center gap-3 mt-4">
+                <a href="#" className="text-muted-foreground hover:text-[#0077B5] transition-colors"><Linkedin className="w-4 h-4" /></a>
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><Twitter className="w-4 h-4" /></a>
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><Github className="w-4 h-4" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══ CONTACT — Split Card ═══ */}
+      <section className="section-padding bg-[#F5F5F0]">
+        <div className="container-max">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-10">Let's Work Together</h2>
+          <div className="grid md:grid-cols-2 gap-0 max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-xl">
+            {/* Left — Form */}
+            <div className="bg-white p-8 lg:p-10">
               {contactSent ? (
-                <div className="glass-card p-6 text-center">
-                  <Send className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <p className="text-foreground font-semibold">Message sent!</p>
-                  <p className="text-sm text-muted-foreground">We'll get back to you soon.</p>
+                <div className="h-full flex flex-col items-center justify-center text-center">
+                  <Send className="w-10 h-10 text-primary mb-4" />
+                  <p className="text-foreground font-semibold text-lg">Message sent!</p>
+                  <p className="text-sm text-muted-foreground mt-1">We'll get back to you soon.</p>
                 </div>
               ) : (
-                <>
-                  <input
-                    type="text" placeholder="Your Name" required
-                    value={contactForm.name} onChange={e => setContactForm(p => ({ ...p, name: e.target.value }))}
-                    className="w-full bg-card border border-border rounded-md px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                  <input
-                    type="email" placeholder="Your Email" required
-                    value={contactForm.email} onChange={e => setContactForm(p => ({ ...p, email: e.target.value }))}
-                    className="w-full bg-card border border-border rounded-md px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                  <textarea
-                    placeholder="Your Message" required rows={4}
-                    value={contactForm.message} onChange={e => setContactForm(p => ({ ...p, message: e.target.value }))}
-                    className="w-full bg-card border border-border rounded-md px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary resize-none"
-                  />
-                  <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                <form onSubmit={handleContact} className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">Your Name</label>
+                    <input
+                      type="text" required
+                      value={contactForm.name} onChange={e => setContactForm(p => ({ ...p, name: e.target.value }))}
+                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">Your Email</label>
+                    <input
+                      type="email" required
+                      value={contactForm.email} onChange={e => setContactForm(p => ({ ...p, email: e.target.value }))}
+                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">Your Message</label>
+                    <textarea
+                      required rows={4}
+                      value={contactForm.message} onChange={e => setContactForm(p => ({ ...p, message: e.target.value }))}
+                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
+                    />
+                  </div>
+                  <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+                    <Send className="w-4 h-4" />
                     Send Message
                   </button>
-                </>
+                </form>
               )}
-            </form>
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-foreground font-semibold mb-1">Phone</h4>
-                <a href={siteInfo.phoneHref} className="text-muted-foreground text-sm hover:text-primary transition-colors">
-                  {siteInfo.phoneDisplay} <span className="text-xs">({siteInfo.phoneLocal})</span>
-                </a>
-              </div>
-              <div>
-                <h4 className="text-foreground font-semibold mb-1">WhatsApp</h4>
-                <a
-                  href={siteInfo.whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground text-sm hover:text-primary transition-colors"
-                >
-                  {siteInfo.whatsappDisplay} <span className="text-xs">({siteInfo.whatsappLocal})</span>
-                </a>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Also reachable on WhatsApp: {siteInfo.whatsappAltLocal}
-                </p>
-              </div>
-              <div>
-                <h4 className="text-foreground font-semibold mb-1">Email</h4>
-                <a href={`mailto:${siteInfo.email}`} className="text-muted-foreground text-sm hover:text-primary transition-colors">
-                  {siteInfo.email}
-                </a>
-              </div>
-              <div>
-                <h4 className="text-foreground font-semibold mb-1">Campus timetabling portal</h4>
-                <p className="text-xs text-muted-foreground mb-1">{siteInfo.campusTimetablingCta}</p>
-                <a
-                  href={siteInfo.campusTimetablingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground text-sm hover:text-primary transition-colors break-all"
-                >
-                  {siteInfo.campusTimetablingUrl.replace(/^https?:\/\//, '')}
-                </a>
-                <div className="flex flex-wrap gap-3 mt-2 text-xs">
-                  <a href={siteInfo.phoneTimetablingHref} className="text-muted-foreground hover:text-primary">
-                    {siteInfo.phoneTimetablingDisplay}
-                  </a>
-                  <a href={siteInfo.phoneTimetablingWhatsappHref} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
-                    WhatsApp {siteInfo.phoneTimetablingLocal}
-                  </a>
+            </div>
+
+            {/* Right — Contact Details (Navy) */}
+            <div className="bg-[#0F172A] p-8 lg:p-10 text-white relative overflow-hidden">
+              {/* Dot pattern */}
+              <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+              <div className="relative space-y-5">
+                <div className="flex items-start gap-3">
+                  <Phone className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-primary text-xs font-semibold uppercase tracking-wide">Phone</p>
+                    <a href={siteInfo.phoneHref} className="text-white text-sm hover:text-primary transition-colors">
+                      {siteInfo.phoneDisplay}
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h4 className="text-foreground font-semibold mb-1">Web</h4>
-                <a
-                  href={siteInfo.publicWebsite}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground text-sm hover:text-primary transition-colors break-all"
-                >
-                  {siteInfo.publicWebsite.replace(/^https?:\/\//, '')}
-                </a>
-              </div>
-              <div>
-                <h4 className="text-foreground font-semibold mb-1">Locations</h4>
-                <ul className="text-muted-foreground text-sm space-y-1">
-                  {siteInfo.locations.map(loc => (
-                    <li key={loc}>{loc}</li>
-                  ))}
-                </ul>
+                <div className="flex items-start gap-3">
+                  <MessageSquare className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-primary text-xs font-semibold uppercase tracking-wide">WhatsApp</p>
+                    <a href={siteInfo.whatsappHref} target="_blank" rel="noopener noreferrer" className="text-white text-sm hover:text-primary transition-colors">
+                      {siteInfo.whatsappDisplay}
+                    </a>
+                    <p className="text-gray-400 text-xs mt-0.5">Also: {siteInfo.whatsappAltLocal}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Mail className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-primary text-xs font-semibold uppercase tracking-wide">Email</p>
+                    <a href={`mailto:${siteInfo.email}`} className="text-white text-sm hover:text-primary transition-colors">
+                      {siteInfo.email}
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Globe className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-primary text-xs font-semibold uppercase tracking-wide">Web</p>
+                    <a href={siteInfo.publicWebsite} target="_blank" rel="noopener noreferrer" className="text-white text-sm hover:text-primary transition-colors break-all">
+                      {siteInfo.publicWebsite.replace(/^https?:\/\//, '')}
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ExternalLink className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-primary text-xs font-semibold uppercase tracking-wide">Timetabling Portal</p>
+                    <a href={siteInfo.campusTimetablingUrl} target="_blank" rel="noopener noreferrer" className="inline-block mt-1 text-xs bg-primary/20 text-primary px-3 py-1 rounded-full hover:bg-primary/30 transition-colors">
+                      Open Portal →
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-primary text-xs font-semibold uppercase tracking-wide">Locations</p>
+                    {siteInfo.locations.map(loc => (
+                      <p key={loc} className="text-white text-sm">{loc}</p>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-function HeroCarousel() {
-  const slides = [
-    { type: 'image', src: '/hero/team-meeting-1.png', alt: 'Team collaboration' },
-    { type: 'image', src: '/hero/team-meeting-2.png', alt: 'Team meeting' },
-    { type: 'video', src: '/videos/video.mp4', alt: 'Intro video' },
-    { type: 'image', src: '/hero/team-meeting-3.png', alt: 'Team discussion' },
-  ];
-  const [index, setIndex] = useState(0);
-
-  // autoplay
-  useEffect(() => {
-    const id = setInterval(() => setIndex(i => (i + 1) % slides.length), 5000);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      {slides.map((s, i) => (
-        <div
-          key={i}
-          className={`absolute inset-0 transition-opacity duration-700 ${i === index ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}
-        >
-          {s.type === 'image' ? (
-            <div className="absolute top-10 left-10 w-96 h-64 opacity-25">
-              <img src={s.src} alt={s.alt} className="w-full h-full object-cover rounded-lg shadow-lg" />
-            </div>
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <video className="w-[min(80%,1200px)] rounded-lg shadow-lg" src={s.src} controls preload="metadata" />
-            </div>
-          )}
-        </div>
-      ))}
-
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
-        <button
-          aria-label="Previous"
-          onClick={() => setIndex(i => (i - 1 + slides.length) % slides.length)}
-          className="bg-background/80 text-foreground p-2 rounded-md shadow-sm"
-        >
-          ‹
-        </button>
-        <button
-          aria-label="Next"
-          onClick={() => setIndex(i => (i + 1) % slides.length)}
-          className="bg-background/80 text-foreground p-2 rounded-md shadow-sm"
-        >
-          ›
-        </button>
-      </div>
     </div>
   );
 }
