@@ -118,8 +118,11 @@ export default function Navbar() {
         </div>
 
         {/* Mobile toggle */}
-        <div className="flex md:hidden items-center gap-3">
-          <Link to="/cart" className="relative text-[#1A1A2E] hover:text-primary">
+        <div className="flex md:hidden items-center gap-2">
+          <button onClick={toggleTheme} className="p-2 rounded-full text-foreground hover:bg-muted transition-colors" aria-label="Toggle theme">
+            {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <Link to="/cart" className="relative text-foreground hover:text-primary">
             <ShoppingCart className="w-5 h-5" />
             {itemCount > 0 && (
               <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
@@ -127,7 +130,7 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-[#1A1A2E]">
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-foreground">
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
