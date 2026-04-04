@@ -1,7 +1,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Menu, X, ShoppingCart } from 'lucide-react';
+import { Menu, X, ShoppingCart, Sun, Moon } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useTheme } from '@/hooks/useTheme';
 import { siteInfo } from '@/lib/data';
 
 const navLinks = [
