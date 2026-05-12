@@ -14,9 +14,18 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        display: ['Syne', '"DM Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
+        dravtech: {
+          navy: '#0B1B3A',
+          navy2: '#102848',
+          navy3: '#1A3A6B',
+          blue: '#1E4D8C',
+          accent: '#E85C1A',
+          off: '#F4F7FC',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
