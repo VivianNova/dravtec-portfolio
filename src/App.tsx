@@ -10,7 +10,7 @@ import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
-import About from "./pages/About";
+import { Navigate } from "react-router-dom";
 import SearchResults from "./pages/SearchResults";
 import Demo from "./pages/Demo";
 import Marketplace from "./pages/Marketplace";
@@ -35,7 +35,7 @@ const App = () => (
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/about" element={<Navigate to="/#who-we-are" replace />} />
             <Route path="/search" element={<SearchResults />} />
             <Route path="/demo" element={<Demo />} />
             <Route path="/marketplace" element={<Marketplace />} />

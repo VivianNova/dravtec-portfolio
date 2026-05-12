@@ -1,166 +1,109 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Menu, X, ShoppingCart, Sun, Moon } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useTheme } from '@/hooks/useTheme';
-import { siteInfo } from '@/lib/data';
 
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
   { label: 'Projects', href: '/projects' },
-  { label: 'About', href: '/about' },
+  { label: 'About', href: '/#who-we-are' },
   { label: 'Marketplace', href: '/marketplace' },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { itemCount } = useCart();
   const { dark, toggle: toggleTheme } = useTheme();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const isActive = (href: string) => {
+    if (href.startsWith('/#')) return location.pathname === '/' && location.hash === href.slice(1);
+    return location.pathname === href;
+  };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = searchQuery.trim();
-    if (q.length === 0) return;
-    setSearchQuery('');
-    navigate(`/search?query=${encodeURIComponent(q)}`);
+  const handleAboutClick = (e: React.MouseEvent, href: string) => {
+    if (href === '/#who-we-are') {
+      e.preventDefault();
+      setMobileOpen(false);
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          document.getElementById('who-we-are')?.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+      } else {
+        document.getElementById('who-we-are')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-background/90 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
-          : 'bg-background'
-      } border-b border-border`}
-    >
+    <nav className="relative z-40 bg-dt-navy text-white">
       <div className="container-max flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2 group">
-          <img
-            src="/logo.png"
-            alt="DravTech Logo"
-            className="w-8 h-8 object-contain"
-          />
-          <div className="flex flex-col leading-tight">
-            <span className="text-foreground font-bold text-xl tracking-tight">DravTech</span>
-            <span className="hidden sm:block text-[10px] uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
-              {siteInfo.tagline}
-            </span>
-          </div>
+        <Link to="/" className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-lg bg-accent-orange flex items-center justify-center font-display font-bold text-white text-sm">DT</div>
+          <span className="font-display font-bold text-xl tracking-tight text-white">DravTech</span>
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map(link => (
             <Link
               key={link.href}
               to={link.href}
-              className={`relative text-sm font-medium transition-colors hover:text-primary py-1 ${
-                location.pathname === link.href ? 'text-primary' : 'text-foreground'
-              }`}
+              onClick={(e) => handleAboutClick(e, link.href)}
+              className={`nav-underline text-sm font-medium transition-colors hover:text-white/90 ${isActive(link.href) ? 'text-white active' : 'text-white/80'}`}
             >
               {link.label}
-              {/* animated underline */}
-              <span
-                className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 ${
-                  location.pathname === link.href ? 'w-full' : 'w-0'
-                }`}
-              />
-              {/* hover underline */}
-              <span className="absolute bottom-0 left-0 h-[2px] bg-primary/40 transition-all duration-300 w-0 group-hover:w-full" />
             </Link>
           ))}
         </div>
 
-        {/* Search form (desktop) */}
-        <form onSubmit={handleSearch} className="hidden md:flex items-center gap-3">
-          <input
-            aria-label="Search"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            className="px-3 py-2 text-sm rounded-lg border border-border bg-white text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-          />
-        </form>
-
-        <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full text-foreground hover:bg-muted transition-colors"
-            aria-label="Toggle theme"
-          >
+        <div className="hidden md:flex items-center gap-4">
+          <button onClick={toggleTheme} className="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition" aria-label="Toggle theme">
             {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-          <Link to="/cart" className="relative text-foreground hover:text-primary transition-colors">
+          <Link to="/cart" className="relative text-white/85 hover:text-white transition">
             <ShoppingCart className="w-5 h-5" />
             {itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-                {itemCount}
-              </span>
+              <span className="absolute -top-2 -right-2 w-4 h-4 bg-accent-orange text-white text-[10px] font-bold rounded-full flex items-center justify-center">{itemCount}</span>
             )}
           </Link>
-          <Link
-            to="/demo"
-            className="bg-primary text-primary-foreground px-5 py-2 text-sm font-medium rounded-full hover:bg-primary/90 transition-colors shadow-sm"
-          >
+          <Link to="/demo" className="bg-accent-orange text-white px-5 py-2 text-sm font-medium rounded-full hover:opacity-90 transition">
             Book a Demo
           </Link>
         </div>
 
-        {/* Mobile toggle */}
         <div className="flex md:hidden items-center gap-2">
-          <button onClick={toggleTheme} className="p-2 rounded-full text-foreground hover:bg-muted transition-colors" aria-label="Toggle theme">
+          <button onClick={toggleTheme} className="p-2 text-white/80" aria-label="Toggle theme">
             {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-          <Link to="/cart" className="relative text-foreground hover:text-primary">
-            <ShoppingCart className="w-5 h-5" />
+          <Link to="/cart" className="relative text-white/85"><ShoppingCart className="w-5 h-5" />
             {itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-                {itemCount}
-              </span>
+              <span className="absolute -top-2 -right-2 w-4 h-4 bg-accent-orange text-white text-[10px] font-bold rounded-full flex items-center justify-center">{itemCount}</span>
             )}
           </Link>
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-foreground">
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-white">
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-background">
+        <div className="md:hidden bg-dt-navy-2">
           <div className="px-4 py-4 space-y-3">
-            <form onSubmit={(e) => { e.preventDefault(); const q = (e.target as any).query?.value?.trim(); if (q) { (e.target as any).query.value = ''; window.location.href = `/search?query=${encodeURIComponent(q)}` } }} className="flex items-center gap-2">
-              <input name="query" placeholder="Search..." className="flex-1 px-3 py-2 rounded-lg border border-border bg-white text-foreground placeholder:text-muted-foreground text-sm" />
-              <button type="submit" className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">Search</button>
-            </form>
             {navLinks.map(link => (
               <Link
                 key={link.href}
                 to={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={`block text-sm font-medium py-2 ${
-                  location.pathname === link.href ? 'text-primary' : 'text-foreground'
-                }`}
+                onClick={(e) => { handleAboutClick(e, link.href); setMobileOpen(false); }}
+                className={`block text-sm font-medium py-2 ${isActive(link.href) ? 'text-accent' : 'text-white/85'}`}
               >
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/demo"
-              onClick={() => setMobileOpen(false)}
-              className="block bg-primary text-primary-foreground px-4 py-2 text-sm font-medium rounded-full text-center mt-2 hover:bg-primary/90"
-            >
+            <Link to="/demo" onClick={() => setMobileOpen(false)} className="block bg-accent-orange text-white px-4 py-2 text-sm font-medium rounded-full text-center">
               Book a Demo
             </Link>
           </div>
