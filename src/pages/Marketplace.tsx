@@ -19,7 +19,7 @@ export default function Marketplace() {
   const [modal, setModal] = useState<ModalKind>(null);
   const [paidArts, setPaidArts] = useState<Set<string>>(new Set());
   const [paidDigital, setPaidDigital] = useState<Set<string>>(new Set());
-  const { addItem } = useCart();
+  const { addToCart } = useCart();
 
   const items = products.filter(p => p.category === activeTab);
 
@@ -84,7 +84,7 @@ export default function Marketplace() {
           ) : activeTab === 'Artwork' ? (
             <ArtsGrid items={items} paid={paidArts} setModal={setModal} />
           ) : activeTab === 'Merchandise' ? (
-            <MerchGrid items={items} addItem={addItem} />
+            <MerchGrid items={items} addItem={addToCart} />
           ) : (
             <DigitalGrid items={items} paid={paidDigital} setModal={setModal} />
           )}
