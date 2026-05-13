@@ -583,6 +583,46 @@ export const products: Product[] = [
     ],
     images: ['/marketplace/art-geometric-triptych.png'],
   },
+  {
+    slug: 'digital-portfolio-template',
+    name: 'Portfolio Site Template',
+    creator: 'DravTech',
+    creatorRole: 'Digital Studio',
+    category: 'Digital Products',
+    price: 4500,
+    priceType: 'one-time',
+    description: [
+      'A modern, responsive portfolio template built with React and Tailwind.',
+      'Includes project showcase, blog layout, and contact form.',
+      'Easy to customize for designers, developers, and creatives.',
+    ],
+    images: ['https://placehold.co/800x600/0B1B3A/E85C1A?text=Portfolio+Template'],
+    plans: [
+      { name: 'Starter', price: 4500, features: ['Source files', '1 project license', 'Email support'] },
+      { name: 'Pro', price: 9500, features: ['Source files', '5 project licenses', 'Priority support', 'Free updates 1 year'] },
+      { name: 'Agency', price: 19500, features: ['Unlimited licenses', 'White-label rights', 'Priority support', 'Lifetime updates'] },
+    ],
+  },
+  {
+    slug: 'digital-analytics-dashboard',
+    name: 'Analytics Dashboard Kit',
+    creator: 'DravTech',
+    creatorRole: 'Digital Studio',
+    category: 'Digital Products',
+    price: 2500,
+    priceType: 'subscription',
+    description: [
+      'A complete analytics dashboard with charts, KPIs, and export tools.',
+      'Plug into any data source via the included connectors.',
+      'Comes with light/dark themes out of the box.',
+    ],
+    images: ['https://placehold.co/800x600/102848/E85C1A?text=Analytics+Kit'],
+    plans: [
+      { name: 'Basic', price: 2500, features: ['Up to 3 dashboards', '1 user', 'Community support'] },
+      { name: 'Growth', price: 6500, features: ['Unlimited dashboards', '5 users', 'Email support', 'API access'] },
+      { name: 'Scale', price: 14500, features: ['Unlimited everything', 'SSO', 'Dedicated support', 'Custom connectors'] },
+    ],
+  },
 ];
 
 export function getServiceBySlug(slug: string): Service | undefined {
