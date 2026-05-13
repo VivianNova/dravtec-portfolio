@@ -64,12 +64,15 @@
   * { @apply border-border; }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.7;
   }
   html { scroll-behavior: smooth; }
   h1, h2, h3, h4, .font-display {
-    font-family: 'Syne', 'DM Sans', system-ui, sans-serif;
-    letter-spacing: -0.01em;
+    font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    line-height: 1.15;
   }
 }
 
