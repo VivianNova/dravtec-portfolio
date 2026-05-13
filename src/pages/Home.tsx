@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
-import { ArrowRight, Calendar, MapPin, Headphones, BadgePercent, LineChart, Globe, Code, Palette, MessageSquare, BarChart3, Cloud } from 'lucide-react';
-import { services, projects, siteInfo } from '@/lib/data';
+import { useEffect, useState } from 'react';
+import { ArrowRight, Calendar, MapPin, Headphones, BadgePercent, LineChart, Globe, Code, Palette, MessageSquare, BarChart3, Cloud, X, Linkedin, Twitter, Github } from 'lucide-react';
+import { services, projects, siteInfo, team, type TeamMember } from '@/lib/data';
 
 const pillarIcons = [Headphones, BadgePercent, LineChart] as const;
 const serviceIcons = [Globe, Code, Palette, MessageSquare, BarChart3, Cloud];
@@ -19,7 +19,7 @@ function useReveal() {
 
 export default function Home() {
   useReveal();
-
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   return (
     <div className="page-fade-in">
       {/* ═══ HERO ═══ */}
@@ -204,6 +204,70 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ═══ MEET THE TEAM ═══ */}
+      <section className="section-padding bg-dravtech-off scroll-reveal">
+        <div className="container-max">
+          <div className="text-center mb-12">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-semibold mb-3">Our People</p>
+            <h2 className="font-display text-4xl font-bold text-foreground mb-3">Meet the Team</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">The Kenyan engineers, designers and operators behind DravTech.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {team.map(member => (
+              <div key={member.name} className="group relative bg-background border border-border rounded-xl overflow-hidden flex flex-col">
+                <div className="relative aspect-[3/4] bg-dt-navy-3 overflow-hidden">
+                  {member.image ? (
+                    <img src={member.image} alt={member.name} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-white/80 font-display text-6xl font-bold bg-dt-navy-2">{member.initials}</div>
+                  )}
+                  <div className="absolute inset-0 bg-dt-navy/85 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-6 text-center">
+                    <p className="text-white/90 text-sm mb-4 line-clamp-4">{member.bio}</p>
+                    <button onClick={() => setSelectedMember(member)} className="bg-accent-orange text-white px-5 py-2 rounded-full text-sm font-semibold">View Profile</button>
+                  </div>
+                </div>
+                <div className="p-5 bg-background">
+                  <h3 className="font-display text-lg font-bold text-foreground">{member.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{member.role}</p>
+                  <div className="flex gap-3 text-muted-foreground">
+                    <a href="#" aria-label="LinkedIn" className="hover:text-accent transition"><Linkedin className="w-4 h-4" /></a>
+                    <a href="#" aria-label="Twitter" className="hover:text-accent transition"><Twitter className="w-4 h-4" /></a>
+                    <a href="#" aria-label="GitHub" className="hover:text-accent transition"><Github className="w-4 h-4" /></a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ Team modal ═══ */}
+      {selectedMember && (
+        <div onClick={() => setSelectedMember(null)} className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+          <div onClick={e => e.stopPropagation()} className="relative bg-dt-navy text-white rounded-2xl max-w-3xl w-full overflow-hidden grid md:grid-cols-2 border border-white/10">
+            <button onClick={() => setSelectedMember(null)} className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center"><X className="w-4 h-4" /></button>
+            <div className="aspect-[3/4] md:aspect-auto bg-dt-navy-3">
+              {selectedMember.image ? (
+                <img src={selectedMember.image} alt={selectedMember.name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-white/80 font-display text-7xl font-bold">{selectedMember.initials}</div>
+              )}
+            </div>
+            <div className="p-8">
+              <p className="text-xs uppercase tracking-[0.25em] text-accent font-semibold mb-3">{selectedMember.sector}</p>
+              <h3 className="font-display text-2xl font-bold mb-1">{selectedMember.name}</h3>
+              <p className="text-white/70 mb-5">{selectedMember.role}</p>
+              <p className="text-white/85 leading-relaxed mb-6">{selectedMember.bio}</p>
+              <div className="flex gap-3">
+                <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-accent-orange flex items-center justify-center transition"><Linkedin className="w-4 h-4" /></a>
+                <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-accent-orange flex items-center justify-center transition"><Twitter className="w-4 h-4" /></a>
+                <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-accent-orange flex items-center justify-center transition"><Github className="w-4 h-4" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ═══ CTA strip ═══ */}
       <section className="bg-dt-navy text-white py-16">
